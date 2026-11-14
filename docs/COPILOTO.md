@@ -1,5 +1,8 @@
 # Copiloto de ciberseguridad y desarrollo · v0.4.0
 
+La interfaz habitual es una unica conversacion: ejecuta `kali-agente` y escribe lo que necesitas con tus palabras. El modelo elige y combina capacidades en cada turno segun el contexto; no necesitas escribir IDs de skills, elegir categorias ni usar subcomandos para conversar. Puedes pegar una salida, pedir que lea un archivo, consultar una herramienta y despues encargar codigo en la misma sesion. Los comandos del manual son accesos opcionales para automatizacion y diagnostico. La seleccion depende del modelo y puede equivocarse; no garantiza comprension perfecta.
+
+
 Combina dos capacidades: elegir y comprender herramientas de Kali y actuar sobre codigo, archivos y comandos cuando el usuario lo pide. Sigue usando OpenCode y tu modelo Ollama. No entrena el modelo ni garantiza que domine todas las herramientas.
 
 ## Arranque y herramientas

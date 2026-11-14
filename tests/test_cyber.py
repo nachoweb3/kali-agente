@@ -99,6 +99,21 @@ class Cyber(unittest.TestCase):
             self.assertEqual(config["default_agent"], "copiloto")
             self.assertIn("nacho", config["agents"])
 
+    def test_interactive_start_leaves_routing_to_model_without_keyword_guide(self):
+        with (
+            patch.object(cyber, "inventory", return_value={}),
+            patch.object(cyber.subprocess, "call", return_value=0) as call,
+            patch.object(knowledge, "choose", side_effect=AssertionError("keyword routing")),
+            contextlib.redirect_stdout(io.StringIO()),
+        ):
+            cyber.copilot([])
+        args = call.call_args.args[0]
+        self.assertIn("--prompt", args)
+        self.assertIn("forma natural", args[-1])
+        config = json.loads(os.environ["OPENCODE_CONFIG_CONTENT"])
+        self.assertIn("CADA nueva peticion", config["agents"]["copiloto"]["system"])
+        self.assertNotIn("Ficha de referencia", args[-1])
+
     def test_copilot_supports_continuation_and_explicit_auto(self):
         with (
             patch.object(cyber, "inventory", return_value={}),

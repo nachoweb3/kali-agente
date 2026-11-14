@@ -63,6 +63,9 @@ Dale un objetivo, deja que trabaje sobre archivos y comandos y revisa el resulta
 
 [Procedencia y regeneración de las capturas](docs/CAPTURAS.md) · [Ejemplo HTML descargable](assets/revision-demo.html)
 
+
+La interfaz habitual es una unica conversacion: ejecuta `kali-agente` y escribe lo que necesitas con tus palabras. El modelo elige y combina capacidades en cada turno segun el contexto; no necesitas escribir IDs de skills, elegir categorias ni usar subcomandos para conversar. Puedes pegar una salida, pedir que lea un archivo, consultar una herramienta y despues encargar codigo en la misma sesion. Los comandos del manual son accesos opcionales para automatizacion y diagnostico. La seleccion depende del modelo y puede equivocarse; no garantiza comprension perfecta.
+
 ## Lo nuevo en v0.4.0
 
 El modo principal ahora es un **copiloto para Kali y desarrollo de software**. Consulta herramientas instaladas, incorpora su ayuda real y analiza las salidas que compartas. Puede trabajar con archivos y shell mediante OpenCode, con los permisos configurados.

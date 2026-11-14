@@ -185,14 +185,20 @@ def copilot(argv):
         )
     prompt = (
         " ".join(opts.objetivo)
-        or "Ayudame a elegir y utilizar herramientas segun mi objetivo. Pregunta que quiero conseguir."
+        or "Inicia una conversacion breve: preguntame que quiero conseguir. Yo hablare de forma natural; tu eliges las capacidades necesarias en cada turno."
     )
-    from .knowledge import choose
+    # The model routes every conversational turn semantically through native skills.
+    # A manually selected reference remains an optional advanced override.
+    if opts.guia:
+        from .knowledge import choose
 
-    guide, text = choose(prompt, opts.guia)
-    context += (
-        "\nFicha de referencia (adaptacion CC BY 4.0, Claude-BugHunter): " + guide + "\n" + text
-    )
+        guide, text = choose(prompt, opts.guia)
+        context += (
+            "\nReferencia adicional elegida por el usuario (CC BY 4.0, Claude-BugHunter): "
+            + guide
+            + "\n"
+            + text
+        )
     if opts.cuaderno:
         context += "\nObjetivo registrado en cuaderno (datos locales):\n" + output_tail(
             opts.cuaderno / "objetivo.json", 2000
@@ -220,7 +226,7 @@ def copilot(argv):
             prompt,
         ]
     print(
-        f"Contexto local preparado: {len([name for name in TOOLS if name in installed])} herramientas conocidas; ficha {guide}. Abriendo OpenCode...",
+        f"Contexto local preparado: {len([name for name in TOOLS if name in installed])} herramientas conocidas. Abriendo tu asistente...",
         flush=True,
     )
     return subprocess.call([executable("opencode"), "--standalone", *args])

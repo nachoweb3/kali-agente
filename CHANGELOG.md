@@ -1,5 +1,9 @@
 # Changelog
 
+## Sin publicar como release adicional
+
+- Interfaz conversacional unica: seleccion semantica de capacidades por turno, combinables, sin pedir IDs al usuario. Se elimina la ficha automatica fijada por palabras clave al arrancar; las referencias manuales quedan como opcion avanzada.
+
 ## 0.4.0
 
 - Copiloto de ciberseguridad y programacion como modo principal, con permisos de OpenCode y continuidad de sesiones.
