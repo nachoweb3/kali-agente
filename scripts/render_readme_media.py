@@ -47,6 +47,7 @@ def frame(width, height, title, subtitle):
 
 
 def terminal(name, title, output, subtitle):
+    output = "\n".join(line.rstrip() for line in output.splitlines()) + "\n"
     lines = []
     for line in output.splitlines():
         lines.extend(
@@ -215,7 +216,7 @@ def main():
         "terminal": "Captured program output rendered with Pillow",
         "workflow": "Controlled agent fixture; real Git, checks and coordinator",
         "review": "Generated review HTML, static WeasyPrint render; no browser or JavaScript",
-        "normalization": "Temporary paths and random task identifiers replaced with demo values",
+        "normalization": "Temporary paths and random task identifiers replaced with demo values; trailing whitespace removed",
         "network_fetches": False,
         "docker_checks_captured": opts.docker,
         "render_versions": {
