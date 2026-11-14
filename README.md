@@ -26,10 +26,13 @@ Nacio para usar Qwen3-Coder abliterated desde Kali. Esta distribucion conserva e
 | Modo | Para que sirve |
 | --- | --- |
 | Interactivo | Trabajar con OpenCode, conversar sobre el proyecto y aprobar herramientas. |
+| Primer arranque | `iniciar` comprueba dependencias y Ollama, lista modelos instalados y guarda tu eleccion. |
+| Panel | `tareas --seguir` muestra las fases y el ultimo progreso registrado en otra terminal. |
 | Tarea directa | Pedir una accion desde la terminal con `tarea`; `auto` aprueba permisos automaticamente. |
 | Tarea coordinada | `trabajar` crea un worktree, conserva los checks originales, limita tiempo/acciones y verifica resultados. |
 | Retomar | Continuar la misma tarea, worktree y sesion, conservando el historial. |
 | Revision | Consultar el informe, los logs y `cambios.patch` antes de integrar. |
+| Integracion | `revisar ID` y `aplicar ID`: revision del parche, checks renovados y confirmacion antes de preparar cambios en Git. |
 | Banco optativo | Tres ejercicios pequenos: corregir Python, implementar una funcion y arreglar una API HTTP. |
 
 **Los worktrees separan cambios de Git, pero no son un sandbox.** El shell tiene acceso real a tu cuenta. `auto`, `trabajar`, `retomar` y `banco` aprueban herramientas automaticamente; utilizalos en entornos de confianza y revisa sus resultados. Consulta [el alcance de seguridad](SECURITY.md).
@@ -61,11 +64,14 @@ Selecciona **un modelo que ya aparezca en `ollama list`**:
 
 ```bash
 kali-agente configurar --modelo 'huihui_ai/qwen3-coder-abliterated:30b'
+kali-agente iniciar
 kali-agente estado
 kali-agente
 ```
 
 Si ya tienes un alias como `nacho-coder:latest`, utiliza ese nombre. Puedes usar otro modelo compatible. La calidad del razonamiento y de las llamadas a herramientas depende del modelo.
+
+`iniciar` muestra los modelos que ya tienes; puedes elegir por numero o nombre. Comprueba Git, OpenCode y la conexion con Ollama. No descarga modelos ni instala dependencias. Sin una terminal interactiva, indica `iniciar --modelo NOMBRE`. El primer inicio interactivo sin configuracion propia abre este asistente. La comprobacion de conexion no certifica que un modelo implemente correctamente las herramientas.
 
 ## Windows: CMD y PowerShell
 
@@ -107,6 +113,8 @@ kali-agente resultados
 
 `preparar` detecta algunas estructuras Python y scripts npm. Revisa siempre lo generado: no determina por si solo si las pruebas cubren tu objetivo. Conserva un AGENTS.md existente.
 
+En otra terminal puedes seguir el progreso mientras trabaja con `kali-agente tareas --seguir`. El panel muestra la ultima fase registrada, su fecha, las acciones del intento actual, los segundos del agente y la ultima herramienta. Durante las comprobaciones muestra el check en curso. Si un proceso termina inesperadamente, el registro puede quedar antiguo: la fecha no demuestra que siga activo. Ctrl+C sale del panel; para interrumpir la tarea, usa Ctrl+C en la terminal que la ejecuta. Durante la carga de Ollama se muestran avisos cada diez segundos.
+
 1. Exige un repositorio limpio y captura su commit base, checks y archivos protegidos.
 2. Crea una rama y un worktree propios. Ejecuta los checks iniciales para registrar el punto de partida.
 3. Carga el modelo y ejecuta OpenCode con el objetivo, limites y contexto del proyecto.
@@ -120,7 +128,19 @@ kali-agente retomar ID_DE_TAREA --segundos 1200 --acciones 60
 kali-agente verificar
 ```
 
-Los informes muestran la ruta del worktree y de `cambios.patch`. Puedes revisar con `git diff` dentro del worktree o comprobar el parche con `git apply --check /ruta/cambios.patch`. Integra solo tras revisarlo. Los worktrees e informes se conservan hasta que los elimines manualmente con las herramientas de Git y del sistema.
+Para integrar una tarea verificada:
+
+```bash
+kali-agente revisar ID_DE_TAREA
+kali-agente aplicar ID_DE_TAREA
+# Escribe APLICAR seguido del identificador cuando lo solicite.
+git diff --cached
+# Crea el commit cuando estes conforme.
+```
+
+`revisar` muestra los checks y el parche y registra su huella. `aplicar` exige esa revision, vuelve a ejecutar los checks originales y comprueba que el worktree coincide con el parche, los archivos protegidos siguen iguales y el proyecto original conserva el commit base y esta limpio. Vuelve a comprobar el estado tras la confirmacion. Si algo no coincide, rechaza la integracion. No hay opcion `--yes`: requiere una terminal interactiva.
+
+El parche se aplica con `git apply --index`: cambia los archivos y los deja preparados en el indice, **sin crear un commit**. Los checks se ejecutan en el worktree antes de integrar; las comprobaciones no garantizan que el codigo carezca de defectos. Revisa `git diff --cached`. Los informes muestran las rutas y el registro de integracion. Los worktrees e informes se conservan hasta que los elimines manualmente con las herramientas de Git y del sistema.
 
 Ejemplo de `.kali-agente.json` que debes versionar junto al proyecto:
 
@@ -180,8 +200,10 @@ El banco con modelo real es independiente y optativo: `kali-agente banco --caso 
 - [x] Worktrees, reanudacion, limites e informes con parches.
 - [x] Banner ASCII animado en terminal y GIF de portada reproducible.
 - [x] Instalacion en Linux y lanzadores Windows mediante WSL2.
+- [x] Primer arranque guiado y diagnostico de dependencias.
+- [x] Panel de progreso y revision/integracion de parches con confirmacion.
 - [ ] Entornos aislados opcionales para ejecutar herramientas.
 - [ ] Mas casos de evaluacion y perfiles de modelos con resultados reproducibles.
-- [ ] Revision visual de parches y gestion sencilla de tareas antiguas.
+- [ ] Gestion sencilla de tareas antiguas y revision grafica de parches.
 
 Creado por **[nachoweb3](https://github.com/nachoweb3)**. Codigo y arte propios bajo [MIT](LICENSE). Consulta [componentes y licencias externas](THIRD_PARTY.md), [contribuciones](CONTRIBUTING.md) y [changelog](CHANGELOG.md).

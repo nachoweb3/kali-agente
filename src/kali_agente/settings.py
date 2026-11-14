@@ -5,6 +5,8 @@ import os
 from pathlib import Path
 import shutil
 import tempfile
+import threading
+import time
 import urllib.parse
 import urllib.request
 
@@ -46,6 +48,8 @@ def settings():
 
 
 def validate_settings(result):
+    if not isinstance(result["url"], str):
+        raise ValueError("La URL de Ollama debe ser texto")
     url = urllib.parse.urlsplit(result["url"])
     if (
         url.scheme not in ("http", "https")
@@ -110,8 +114,24 @@ def request(path, data=None, timeout=5):
 
 def warm_model():
     print("Preparando el modelo local (hasta 180 s)...", flush=True)
-    request(
-        "/api/generate",
-        {"model": settings()["model"], "keep_alive": "30m", "stream": False},
-        timeout=180,
-    )
+    finished = threading.Event()
+    started = time.monotonic()
+
+    def notice():
+        while not finished.wait(10):
+            print(
+                f"  Esperando a Ollama: {int(time.monotonic() - started)} s. Ctrl+C para cancelar.",
+                flush=True,
+            )
+
+    worker = threading.Thread(target=notice, daemon=True)
+    worker.start()
+    try:
+        request(
+            "/api/generate",
+            {"model": settings()["model"], "keep_alive": "30m", "stream": False},
+            timeout=180,
+        )
+    finally:
+        finished.set()
+        worker.join()

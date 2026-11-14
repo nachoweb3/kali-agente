@@ -18,6 +18,10 @@ def main():
     if args and args[0] in ("--help", "-h", "ayuda"):
         print("""KALI AGENTE Â· nacho_web3
 
+kali-agente iniciar [--modelo ID]    Primer arranque guiado
+kali-agente tareas [--seguir]       Panel y progreso de tareas
+kali-agente revisar ID             Muestra checks y parche
+kali-agente aplicar ID             Verifica y pide confirmar la integracion
 kali-agente configurar [--modelo ID] [--url http://localhost:11434]
                        [--contexto 16384] [--salida 2048]
 kali-agente estado                  Diagnostica Ollama y OpenCode
@@ -43,8 +47,8 @@ trabajar, retomar y banco aprueban herramientas automaticamente. Revisa sus parc
         parser = argparse.ArgumentParser()
         parser.add_argument("--modelo", default=settings()["model"])
         parser.add_argument("--url", default=settings()["url"])
-        parser.add_argument("--contexto", type=int, default=16384)
-        parser.add_argument("--salida", type=int, default=2048)
+        parser.add_argument("--contexto", type=int, default=settings()["context"])
+        parser.add_argument("--salida", type=int, default=settings()["output"])
         opts = parser.parse_args(args[1:])
         from .settings import validate_settings
 
@@ -59,6 +63,33 @@ trabajar, retomar y banco aprueban herramientas automaticamente. Revisa sus parc
 
         show(animate="--estatico" not in args)
         return 0
+    if args and args[0] == "iniciar":
+        from .experience import setup
+
+        return setup(args[1:])
+    if args and args[0] == "tareas":
+        from .experience import dashboard
+
+        return dashboard(args[1:])
+    if args and args[0] in ("revisar", "aplicar"):
+        from .experience import review, apply
+        from . import coordinador_agente as coordinator
+        import fcntl
+
+        parser = argparse.ArgumentParser()
+        parser.add_argument("id")
+        opts = parser.parse_args(args[1:])
+        coordinator.STATE.mkdir(parents=True, exist_ok=True)
+        with (coordinator.STATE / "ejecucion.lock").open("a+") as lock:
+            try:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                raise RuntimeError("Hay otra tarea o integracion en marcha") from None
+            return review(opts.id) if args[0] == "revisar" else apply(opts.id)
+    if not args and not (config_dir() / "config.json").exists() and sys.stdin.isatty():
+        from .experience import setup
+
+        return setup([])
     activate()
     if args and args[0] == "estado":
         model = settings()["model"]

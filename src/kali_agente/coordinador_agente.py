@@ -14,6 +14,8 @@ import subprocess
 import time
 import uuid
 
+from .experience import progress
+
 HERE = Path(__file__).resolve().parent
 STATE = Path(
     os.environ.get(
@@ -167,6 +169,7 @@ def verify(root, config, directory, phase):
     ]
     commands += config.get("checks", [])
     for i, item in enumerate(commands):
+        progress(directory, "comprobaciones-" + phase, ultimo=item.get("name", f"check-{i}"))
         result = checked(
             item["argv"], root, directory / f"{phase}-{i:02d}.log", item.get("timeout", 90)
         )
@@ -211,6 +214,7 @@ def format_candidate(root, config, directory, phase, base):
 
 def stream_agent(worktree, prompt, directory, seconds, max_actions, session_id=None):
     start = time.monotonic()
+    progress(directory, "agente", segundos=0, acciones=0, ultimo="iniciando OpenCode")
     count = 0
     failures = {}
     reason = None
@@ -253,6 +257,7 @@ def stream_agent(worktree, prompt, directory, seconds, max_actions, session_id=N
                     break
                 if now - last_notice >= 15:
                     print(f"  Agente activo: {int(now - start)} s, {count} acciones.", flush=True)
+                    progress(directory, "agente", segundos=int(now - start), acciones=count)
                     last_notice = now
                 for key, _ in selector.select(timeout=1):
                     chunk = os.read(key.fd, 65536)
@@ -281,6 +286,13 @@ def stream_agent(worktree, prompt, directory, seconds, max_actions, session_id=N
                         state = part.get("state", {})
                         tool = part.get("tool", "?")
                         print(f"  Herramienta: {tool} [{state.get('status', '?')}]", flush=True)
+                        progress(
+                            directory,
+                            "agente",
+                            segundos=int(time.monotonic() - start),
+                            acciones=count,
+                            ultimo=tool,
+                        )
                         metadata = state.get("metadata", {}).get("metadata", {})
                         failed = (
                             state.get("status") == "error"
@@ -354,6 +366,7 @@ def snapshot_diff(worktree, base, directory):
 
 
 def write_report(directory, report):
+    progress(directory, report["estado"], ultimo=report.get("error", report["estado"]))
     save(directory / "informe.json", report)
     lines = [
         "# Informe de tarea",
@@ -442,6 +455,7 @@ def task(root, objective, seconds=1200, max_actions=60, warm=True):
     try:
         report["antes"] = verify(worktree, config, directory, "antes")
         if warm:
+            progress(directory, "cargando-modelo")
             warm_model()
         commands = "- git diff HEAD --check\n" + "\n".join(
             "- " + shlex.join(x["argv"]) for x in config.get("checks", [])
@@ -627,6 +641,8 @@ def resume(identifier, seconds=1200, max_actions=60, warm=True):
     report.setdefault("historial", []).append(previous)
     report.pop("error", None)
     phase = "retomar-" + uuid.uuid4().hex[:6]
+    report["estado"] = "retomando"
+    write_report(directory, report)
     print("Retomando:", identifier, "\nWorktree:", worktree, flush=True)
     try:
         report["formato"] = format_candidate(
@@ -636,6 +652,7 @@ def resume(identifier, seconds=1200, max_actions=60, warm=True):
         report["retomar_antes"] = before
         bad = [x for x in before if x["codigo"] != 0 or x["timeout"]]
         if warm:
+            progress(directory, "cargando-modelo")
             warm_model()
         prompt = (
             "Continuamos la tarea en el mismo worktree. Objetivo: "

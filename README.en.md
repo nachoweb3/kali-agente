@@ -16,6 +16,7 @@ cd kali-agente
 bash scripts/install.sh
 export PATH="$HOME/.local/bin:$PATH"
 kali-agente configurar --modelo 'your-installed-model:latest'
+kali-agente iniciar
 kali-agente estado
 kali-agente
 ```
@@ -40,6 +41,12 @@ The coordinator captures the original checks, creates a worktree, records baseli
 Interactive mode asks for permissions according to OpenCode settings. `tarea 'goal'` runs a direct task; `auto 'goal'` enables automatic approval. Commands and agent instructions currently default to Spanish, but you can ask the model to respond in another language.
 
 ## Configuration
+
+Version 0.2 adds guided setup (`iniciar`), a progress panel (`tareas --seguir`), patch review (`revisar TASK_ID`) and confirmed integration (`aplicar TASK_ID`). Setup checks dependencies, lists installed Ollama models and saves your choice without downloading anything. For non-interactive setup, use `iniciar --modelo NAME`.
+
+The progress panel shows the last recorded phase, timestamp, current-attempt action count and last tool. A stale record does not prove a process is still running. Ctrl+C exits the panel; interrupt the task from its own terminal.
+
+Review prints the patch and records its hash. Integration reruns the captured checks, requires the original repository to be clean at the base commit, checks protected files and rejects changes to the reviewed patch/worktree. It requires typing `APLICAR TASK_ID` in an interactive terminal and rechecks state after confirmation. It uses `git apply --index`, staging the changes without committing. Review `git diff --cached` before committing. Checks run in the worktree before integration and cannot guarantee defect-free code.
 
 `kali-agente configurar --modelo MODEL --url http://127.0.0.1:11434 --contexto 16384 --salida 2048` writes this application's own config. `KALI_AGENT_MODEL`, `KALI_AGENT_OLLAMA_URL`, `KALI_AGENT_CONFIG_DIR`, `KALI_AGENT_STATE_DIR`, `KALI_AGENT_OPENCODE_BIN` and `KALI_AGENT_RUFF_BIN` override discovery. Standard XDG directories are respected. Existing OpenCode files are not overwritten; OpenCode can merge other configurations. Review its effective settings.
 

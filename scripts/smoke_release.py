@@ -36,6 +36,11 @@ def main():
         import threading
 
         class Handler(http.server.BaseHTTPRequestHandler):
+            def do_GET(self):
+                self.send_response(200)
+                self.end_headers()
+                self.wfile.write(b'{"models":[{"name":"fixture:latest"}]}')
+
             def do_POST(self):
                 self.rfile.read(int(self.headers.get("Content-Length", 0)))
                 self.send_response(200)
@@ -53,6 +58,7 @@ def main():
                 KALI_AGENT_OPENCODE_BIN=str(fake),
                 KALI_AGENT_OLLAMA_URL=f"http://127.0.0.1:{server.server_port}",
             )
+            run("iniciar", "--modelo", "fixture:latest")
             project = root / "project"
             project.mkdir()
             (project / "codigo.py").write_text("valor = 1\n")
@@ -89,8 +95,42 @@ def main():
             assert (project / "codigo.py").read_text() == "valor = 1\n"
             patch = Path(report["worktree"]).parent / "cambios.patch"
             assert patch.exists()
+            run("revisar", report["id"])
+            assert report["id"] in run("tareas").stdout
+            refused = subprocess.run(
+                [*cli, "aplicar", report["id"]],
+                cwd=project,
+                env=env,
+                stdin=subprocess.DEVNULL,
+                capture_output=True,
+                text=True,
+            )
+            assert refused.returncode == 1 and "terminal interactiva" in refused.stderr
+            import pty
+
+            master, slave = pty.openpty()
+            try:
+                os.write(master, ("APLICAR " + report["id"] + "\n").encode())
+                applied = subprocess.run(
+                    [*cli, "aplicar", report["id"]],
+                    cwd=project,
+                    env=env,
+                    stdin=slave,
+                    capture_output=True,
+                    text=True,
+                    timeout=30,
+                )
+                assert applied.returncode == 0, applied.stderr + applied.stdout
+            finally:
+                os.close(master)
+                os.close(slave)
+            assert (project / "codigo.py").read_text() == "valor = 2\n"
+            staged = subprocess.check_output(
+                ["git", "-C", str(project), "diff", "--cached", "--name-only"], text=True
+            )
+            assert "codigo.py" in staged
             print(
-                "Installed wheel: CLI, config, banner, Ollama fixture, OpenCode fixture, worktree, verification and patch OK"
+                "Installed wheel: wizard, dashboard, review, interactive integration, CLI, worktree and verification OK"
             )
         finally:
             server.shutdown()

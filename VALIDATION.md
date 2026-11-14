@@ -1,4 +1,13 @@
-# Validacion de 0.1.0
+# Validacion
+
+## 0.2.0
+
+- 37 pruebas locales aprobadas en Linux / WSL2, Python 3.14: incluye revision, integracion, confirmacion, cambios concurrentes del original, parches modificados y primer arranque.
+- Ruff: formato y comprobaciones de nombres/importaciones aprobados.
+- Flujo completo con fixtures de Ollama y OpenCode: asistente, tarea, panel, revision, rechazo de confirmacion por tuberia e integracion confirmada mediante pseudoterminal.
+- Las pruebas automatizadas no descargan modelos ni necesitan una API de pago. Consulta Actions para la matriz de versiones y las pruebas del wheel instalado.
+
+## 0.1.0
 
 Comprobaciones locales realizadas antes de publicar:
 
