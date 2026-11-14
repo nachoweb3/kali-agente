@@ -19,6 +19,13 @@ def main():
         print("""KALI AGENTE Â· nacho_web3
 
 kali-agente iniciar [--modelo ID]    Primer arranque guiado
+kali-agente copiloto [objetivo] [--herramienta NOMBRE] [--salida ARCHIVO]
+kali-agente herramientas listar [--todas] [--buscar TEXTO]
+kali-agente herramientas ayuda NOMBRE
+kali-agente registrar --salida ARCHIVO -- COMANDO
+kali-agente guias [NOMBRE]
+kali-agente skills [NOMBRE]        Skills que el agente puede cargar
+kali-agente cuaderno NOMBRE --objetivo TEXTO [--alcance TEXTO]
 kali-agente tareas [--seguir]       Panel y progreso de tareas
 kali-agente revisar ID             Muestra checks y parche
 kali-agente aplicar ID             Verifica y pide confirmar la integracion
@@ -49,6 +56,16 @@ trabajar, retomar y banco aprueban herramientas automaticamente. Revisa sus parc
         return 0
     if os.name != "posix" or not sys.platform.startswith("linux"):
         raise RuntimeError("Ejecuta kali-agente dentro de Linux o WSL2.")
+    if args and args[0] in ("copiloto", "herramientas", "registrar"):
+        from .cyber import copilot, tools_cli, record
+
+        return {"copiloto": copilot, "herramientas": tools_cli, "registrar": record}[args[0]](
+            args[1:]
+        )
+    if args and args[0] in ("guias", "cuaderno", "skills"):
+        from .knowledge import guides_cli, notebook, skills_cli
+
+        return {"guias": guides_cli, "cuaderno": notebook, "skills": skills_cli}[args[0]](args[1:])
     if args and args[0] == "configurar":
         parser = argparse.ArgumentParser()
         parser.add_argument("--modelo", default=settings()["model"])
@@ -118,6 +135,12 @@ trabajar, retomar y banco aprueban herramientas automaticamente. Revisa sus parc
         from .experience import setup
 
         return setup([])
+    if not args:
+        from .cabecera_kali import show
+        from .cyber import copilot
+
+        show()
+        return copilot([])
     activate()
     if args and args[0] == "estado":
         model = settings()["model"]
@@ -141,12 +164,20 @@ trabajar, retomar y banco aprueban herramientas automaticamente. Revisa sus parc
                 except BlockingIOError:
                     raise RuntimeError("Ya hay otra tarea coordinada en marcha") from None
             return coordinator.main()
-    from .cabecera_kali import show
-
-    if not args:
-        show()
     if args and args[0] in ("tarea", "auto"):
         command = ["run"] + (["--auto"] if args[0] == "auto" else []) + args[1:]
+    elif args and args[0] == "sesiones":
+        command = ["session", "list", *args[1:]]
+    elif args and args[0] == "continuar":
+        command = ["--continue", *args[1:]]
+    elif args and args[0] in ("plan", "revision"):
+        import json
+
+        agent = "plan" if args[0] == "plan" else "revisor"
+        config = json.loads(os.environ["OPENCODE_CONFIG_CONTENT"])
+        config["default_agent"] = agent
+        os.environ["OPENCODE_CONFIG_CONTENT"] = json.dumps(config)
+        command = ["run", "--agent", agent, " ".join(args[1:])] if args[1:] else []
     elif args and args[0] == "opencode":
         command = args[1:]
     elif args:

@@ -1,19 +1,19 @@
 <div align="center">
 
-# Kali Agente · v0.3.0
+# Kali Agente · v0.4.0
 
 ### Tu modelo local. Tu terminal. Cambios que puedes revisar.
 
-<img src="assets/banner.gif" alt="Kali Agente v0.3.0: NACHO_WEB3 y su robot granjero ASCII animado, con luz cian y violeta" width="960" />
+<img src="assets/banner.gif" alt="Kali Agente v0.4.0: NACHO_WEB3 y su robot granjero ASCII animado, con luz cian y violeta" width="960" />
 
-[![Version 0.3.0](https://img.shields.io/badge/VERSION-0.3.0-80e9ff?style=for-the-badge&labelColor=0c1626)](https://github.com/nachoweb3/kali-agente/releases/tag/v0.3.0)
+[![Version 0.4.0](https://img.shields.io/badge/VERSION-0.4.0-80e9ff?style=for-the-badge&labelColor=0c1626)](https://github.com/nachoweb3/kali-agente/releases/tag/v0.4.0)
 [![CI](https://github.com/nachoweb3/kali-agente/actions/workflows/ci.yml/badge.svg)](https://github.com/nachoweb3/kali-agente/actions/workflows/ci.yml)
 [![MIT](https://img.shields.io/badge/license-MIT-bd9bff)](LICENSE)
 [![Linux and Windows WSL2](https://img.shields.io/badge/Linux%20%2B%20Windows-WSL2-6b9fff)](#instalacion)
 
-**Un agente de programación local de [nachoweb3](https://github.com/nachoweb3), construido con OpenCode + Ollama.**
+**Un copiloto de ciberseguridad y programación local de [nachoweb3](https://github.com/nachoweb3), construido con OpenCode + Ollama.**
 
-[Descargar v0.3.0](https://github.com/nachoweb3/kali-agente/releases/tag/v0.3.0) · [Capturas](#galeria) · [Instalación](#instalacion) · [Guía completa](docs/GUIA.es.md) · [English](README.en.md)
+[Descargar v0.4.0](https://github.com/nachoweb3/kali-agente/releases/tag/v0.4.0) · [Capturas](#galeria) · [Instalación](#instalacion) · [Guía completa](docs/GUIA.es.md) · [English](README.en.md)
 
 </div>
 
@@ -23,10 +23,16 @@ Dale un objetivo, deja que trabaje sobre archivos y comandos y revisa el resulta
 | --- | --- | --- |
 | Inspecciona el proyecto, crea archivos y ejecuta herramientas con OpenCode. | Conserva los checks originales y registra sus resultados antes y después. | Consulta el diff en terminal o HTML e integra con confirmación explícita. |
 
-**Versión actual: 0.3.0** · Linux y Windows mediante WSL2 · Modelo configurable · Código propio bajo MIT.
+**Versión actual: 0.4.0** · Linux y Windows mediante WSL2 · Modelo configurable · Código propio bajo MIT.
 
 <a id="galeria"></a>
 ## Así se ve
+
+### Skills listas para el propio agente
+
+<img src="assets/screenshots/skills-copiloto.png" alt="Catalogo real de las seis skills nativas del copiloto" width="1100" />
+
+*Salida real del paquete; muestra el catalogo, sin simular respuestas del modelo.*
 
 ### Del fallo inicial al parche
 
@@ -49,7 +55,7 @@ Dale un objetivo, deja que trabaje sobre archivos y comandos y revisa el resulta
 <details>
 <summary><strong>Ver la versión y los perfiles del modelo</strong></summary>
 
-<img src="assets/screenshots/version-perfiles.png" alt="Salida real de Kali Agente 0.3.0 y sus perfiles equilibrado, determinista y contexto amplio" width="1100" />
+<img src="assets/screenshots/version-perfiles.png" alt="Salida real de Kali Agente 0.4.0 y sus perfiles equilibrado, determinista y contexto amplio" width="1100" />
 
 *Salidas reales de `--version` y `perfiles`, renderizadas como terminal.*
 
@@ -57,17 +63,30 @@ Dale un objetivo, deja que trabaje sobre archivos y comandos y revisa el resulta
 
 [Procedencia y regeneración de las capturas](docs/CAPTURAS.md) · [Ejemplo HTML descargable](assets/revision-demo.html)
 
-## Lo nuevo en v0.3.0
+## Lo nuevo en v0.4.0
 
-| Función | Qué puedes hacer |
+El modo principal ahora es un **copiloto para Kali y desarrollo de software**. Consulta herramientas instaladas, incorpora su ayuda real y analiza las salidas que compartas. Puede trabajar con archivos y shell mediante OpenCode, con los permisos configurados.
+
+| Capacidad | Uso |
 | --- | --- |
-| **Herramientas en Docker** | Ejecutar un comando sin red y con el proyecto de solo lectura por defecto; habilitar escritura o red explícitamente. |
-| **Seis casos de evaluación** | Probar Python, HTTP, varios archivos, JSONL y CLI con límites y repeticiones configurables. |
-| **Perfiles reproducibles** | Elegir presupuesto de contexto/salida y parámetros de petición; conservar manifiestos de modelo, versiones, hardware y hashes. |
-| **Revisión gráfica** | Generar un HTML local del parche, sin JavaScript ni servicios externos. |
-| **Gestión de tareas** | Archivar, restaurar y exportar informes; liberar worktrees con confirmación y respaldo del parche. |
+| Inventario local | `kali-agente herramientas listar --todas`; 20 recetas de ayuda conocidas y deteccion de otros ejecutables. |
+| Consultas precisas | `kali-agente copiloto --herramienta nmap "Explica -sV usando la ayuda local"` |
+| Otra terminal | `registrar --salida sesion.log -- comando argumentos`; despues `copiloto --salida sesion.log "Explica este resultado"`. |
+| Seis skills nativas | Herramientas, interpretacion, desarrollo, validacion, evidencias e informes, auditoria web. OpenCode las carga bajo demanda. |
+| Cuadernos locales | Objetivo, alcance, scripts, evidencias y plantilla de informe separados por trabajo. |
+| Desarrollo completo | Crear y modificar codigo, comprobarlo y compilarlo; desplegar requiere destino y acceso disponibles. |
 
-También incluye primer arranque guiado, panel de progreso, continuación de sesiones y aplicación de parches con comprobaciones renovadas. [Ver el historial de versiones →](CHANGELOG.md)
+```bash
+kali-agente skills
+kali-agente skills kali-herramientas
+kali-agente copiloto "Crea una utilidad Python para resumir mis registros y prueba su funcionamiento"
+```
+
+[Manual del copiloto y las seis skills](docs/COPILOTO.md) · [Que adaptamos de Claude-BugHunter, fuentes y licencias](docs/CLAUDE-BUGHUNTER.md)
+
+Las skills y fichas adaptadas de Sachin Sharma / elementalsouls conservan **CC BY 4.0**; el codigo propio es MIT. No se instalan plugins ni motores externos. La integracion nativa se ha verificado con OpenCode real y un modelo simulado; eso no demuestra que cualquier modelo seleccione bien todas las skills. Una consulta real a Nmap con el modelo local tardo **117 segundos en CPU**. Las evaluaciones anteriores del modelo siguen siendo limitadas y no se convierten en resultados mejores por incorporar estas guias.
+
+Conserva Docker opcional, seis casos de evaluacion, perfiles reproducibles, worktrees, revision HTML y gestion de tareas de v0.3.0. [Historial](CHANGELOG.md).
 
 ## Cómo trabaja
 
@@ -109,7 +128,7 @@ kali-agente iniciar
 
 **Windows · CMD y PowerShell**
 
-Descarga y extrae el [ZIP de Windows / WSL2 v0.3.0](https://github.com/nachoweb3/kali-agente/releases/download/v0.3.0/kali-agente-0.3.0-windows-wsl2.zip). Desde la carpeta extraída:
+Descarga y extrae el [ZIP de Windows / WSL2 v0.4.0](https://github.com/nachoweb3/kali-agente/releases/download/v0.4.0/kali-agente-0.4.0-windows-wsl2.zip). Desde la carpeta extraída:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\windows\install.ps1
@@ -119,7 +138,7 @@ El motor corre dentro de WSL2. La distribución predeterminada es `kali-linux`; 
 
 ## Evidencias y límites
 
-- **50 pruebas automáticas**, más 9 subtests de fixtures y validadores, aprobadas en la validación local de v0.3.0.
+- **50 pruebas automáticas**, más 9 subtests de fixtures y validadores, aprobadas en la validación local de v0.4.0.
 - **CI para Python 3.11, 3.12, 3.13 y 3.14**, scripts de Windows y prueba real de Docker. [Consultar Actions](https://github.com/nachoweb3/kali-agente/actions/workflows/ci.yml).
 - **Wheel instalado en un entorno independiente**, flujo de revisión/integración y parámetros enviados por OpenCode comprobados. [Detalle de validación](VALIDATION.md).
 - **Evaluación del modelo publicada por separado:** 0/3 casos nuevos verificados en la ejecución local de CPU con 180 segundos por tarea. No se confunde ese resultado con los tests del coordinador. [Condiciones y resultados](evaluations/README.md).

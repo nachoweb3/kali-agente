@@ -211,6 +211,20 @@ def main():
             "Comprobaciones reales / solo lectura, sin red, escritura explicita y timeout",
         )
 
+    skills = subprocess.run(
+        [sys.executable, "-m", "kali_agente", "skills"],
+        text=True,
+        capture_output=True,
+        check=True,
+        timeout=15,
+    )
+    terminal(
+        "skills-copiloto",
+        f"Kali Agente v{__version__} / SKILLS DEL COPILOTO",
+        "$ kali-agente skills\n\n" + skills.stdout,
+        "Catalogo real del paquete / carga bajo demanda en OpenCode / sin inferencia",
+    )
+
     metadata = {
         "version": __version__,
         "terminal": "Captured program output rendered with Pillow",

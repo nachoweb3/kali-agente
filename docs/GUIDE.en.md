@@ -59,3 +59,8 @@ The benchmark now has six cases (41 reference assertions per full pass) and supp
 Install `python -m pip install -e '.[dev]'` in a virtual environment. Run `python -m pytest -q`, `ruff format --check src tests scripts` and `python -m build`. Normal tests require no model or paid service. `kali-agente banco --caso todos` runs an optional six-case real-model benchmark; it is not a model leaderboard. `python scripts/render_banner.py` renders the terminal's exact ASCII frames as the README GIF using Pillow and a locally installed monospace font.
 
 Our code and artwork are [MIT](../LICENSE). External software and model licenses remain separate; see [THIRD_PARTY.md](../THIRD_PARTY.md). Contributions welcome: [CONTRIBUTING.md](../CONTRIBUTING.md).
+
+
+## Copiloto y skills / Copilot and skills (0.4.0)
+
+El arranque principal abre el copiloto. Consulta [COPILOTO.md](COPILOTO.md) para ayuda local, seis skills nativas, lectura explicita de registros y desarrollo. [Fuentes y licencias](CLAUDE-BUGHUNTER.md). Los comandos de tareas, revisiones y Docker siguen disponibles.

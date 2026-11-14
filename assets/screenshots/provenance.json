@@ -1,5 +1,5 @@
 {
-  "version": "0.3.0",
+  "version": "0.4.0",
   "terminal": "Captured program output rendered with Pillow",
   "workflow": "Controlled agent fixture; real Git, checks and coordinator",
   "review": "Generated review HTML, static WeasyPrint render; no browser or JavaScript",

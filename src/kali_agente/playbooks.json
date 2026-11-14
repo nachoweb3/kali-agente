@@ -1,0 +1,39 @@
+{
+  "attribution": {
+    "project": "Claude-BugHunter",
+    "author": "Sachin Sharma / elementalsouls",
+    "revision": "8ac4242ee0a108e65ac1343b56cce6c50ba456ef",
+    "source": "https://github.com/elementalsouls/Claude-BugHunter/tree/8ac4242ee0a108e65ac1343b56cce6c50ba456ef",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "changes": "Adaptacion al espanol, reduccion a fichas orientativas y seleccion para un copiloto local de herramientas y desarrollo. No se han importado el motor, los instaladores ni la coleccion de payloads.",
+    "disclaimer": "Contenido de referencia sin garantias; no implica respaldo de los autores originales."
+  },
+  "guides": {
+    "diagnostico": {
+      "description": "Elegir herramientas y diagnosticar resultados paso a paso",
+      "sources": ["skills/bb-local-toolkit/SKILL.md", "skills/bb-methodology/SKILL.md"],
+      "text": "Aclara que resultado necesita el usuario y que informacion ya tiene. Comprueba que las herramientas propuestas existen; consulta la ayuda local y la version antes de depender de una opcion. Propone el comando minimo que responda a una pregunta concreta, explica sus argumentos y que salida esperas. Distingue salida observada, interpretacion e hipotesis. Usa el ultimo error para ajustar el siguiente paso; no encadenes escaneres ni repitas el mismo comando sin informacion nueva. Si falta una herramienta, explica alternativas instaladas antes de proponer instalar otra."
+    },
+    "web-api": {
+      "description": "Comprender peticiones, autenticacion y comportamiento de aplicaciones",
+      "sources": ["skills/bb-methodology/SKILL.md", "skills/triage-validation/SKILL.md"],
+      "text": "Identifica metodo, ruta, parametros, rol de prueba y respuesta esperada. Separa fallos de conectividad, parsing, autenticacion, autorizacion y logica. Un 200, un error 400 o una cabecera aislada no prueban una vulnerabilidad. Contrasta una peticion valida de referencia con el comportamiento observado antes de concluir. Usa cuentas y datos de prueba controlados para validar diferencias. Cuando el objetivo sea corregir la aplicacion, implementa la comprobacion en el servidor y una prueba de regresion sobre el codigo real."
+    },
+    "codigo": {
+      "description": "Crear scripts, integrar codigo, compilar y preparar despliegues",
+      "sources": ["skills/bb-local-toolkit/SKILL.md", "skills/report-writing/SKILL.md"],
+      "text": "Comprueba lenguaje, dependencias, estructura y estado del proyecto. Implementa el script o cambio pedido en archivos reales, con argumentos claros, codigos de salida y manejo de errores. No incrustes credenciales ni sustituyas la implementacion por una demostracion que solo imprime exito. Ejecuta las comprobaciones pertinentes y, cuando corresponda, compila el proyecto. Para desplegar identifica destino, cuenta, permisos, configuracion y modo de rollback; comprueba el resultado real y distingue preparado, compilado y desplegado. No atribuyas a una prueba de fixture el exito del modelo o de un despliegue real."
+    },
+    "validacion": {
+      "description": "Separar hipotesis, falsos positivos y hallazgos comprobados",
+      "sources": ["skills/triage-validation/SKILL.md"],
+      "text": "Antes de afirmar un hallazgo, conserva el comportamiento reproducido, los pasos, los requisitos de acceso y el alcance comprobado. Contrasta explicaciones alternativas y documenta que observacion descartaria la hipotesis. No conviertas la salida de un scanner o un banner de version en prueba de explotabilidad. Usa una demostracion minima con datos controlados; no necesitas recolectar datos reales de otras personas para redactar un informe util. Si falta validacion, marca el resultado como candidato o no confirmado y concreta que comprobacion falta."
+    },
+    "evidencias": {
+      "description": "Preparar notas e informes con datos minimos y verificables",
+      "sources": ["skills/evidence-hygiene/SKILL.md", "skills/report-writing/SKILL.md"],
+      "text": "Conserva comando, fecha, version, contexto, resultado esperado y observado y archivos de evidencia. Al redactar, separa impacto demostrado de posibilidades pendientes. Incluye pasos de reproduccion, limitaciones, correccion propuesta y prueba de regresion. Antes de compartir revisa cookies, Authorization, tokens, claves, datos personales y rutas privadas. La ocultacion automatica de patrones no garantiza eliminar todos los secretos. Prepara el informe localmente; compartirlo o enviarlo es una accion aparte que requiere una instruccion del usuario."
+    }
+  }
+}

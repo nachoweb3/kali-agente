@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0
+
+- Copiloto de ciberseguridad y programacion como modo principal, con permisos de OpenCode y continuidad de sesiones.
+- Inventario de ejecutables locales y 20 recetas de ayuda sin destinos de red ni ejecucion automatica de herramientas desconocidas.
+- Registro explicito de una terminal y consulta acotada de su salida; no observa otras terminales por su cuenta.
+- Seis skills nativas bajo demanda y cinco fichas compactas; adaptaciones atribuidas de Claude-BugHunter bajo CC BY 4.0.
+- Cuadernos locales exclusivos para objetivos, alcance, scripts, evidencias e informes.
+- Pruebas de integracion de carga nativa de skills y documentacion de limites y rendimiento real.
+
 ## 0.3.0
 
 - Comandos aislados opcionales en Docker con limites, sin red ni escritura por defecto y sin descargas implicitas.

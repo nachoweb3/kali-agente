@@ -4,11 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kali-agente"
-version = "0.3.0"
-description = "Local coding agent with OpenCode, Ollama, isolated Git worktrees and independent verification"
+version = "0.4.0"
+description = "Local Kali cybersecurity and coding copilot with OpenCode, Ollama and on-demand skills"
 readme = "README.md"
 requires-python = ">=3.11"
-license = "MIT"
+license = "MIT AND CC-BY-4.0"
+license-files = ["LICENSE", "THIRD_PARTY.md"]
 authors = [{name = "nachoweb3"}]
 dependencies = []
 classifiers = ["Operating System :: POSIX :: Linux", "Programming Language :: Python :: 3"]
@@ -25,7 +26,7 @@ Homepage = "https://github.com/nachoweb3/kali-agente"
 Issues = "https://github.com/nachoweb3/kali-agente/issues"
 
 [tool.setuptools.package-data]
-kali_agente = ["profile.json"]
+kali_agente = ["profile.json", "playbooks.json", "skills/*/SKILL.md"]
 
 [tool.ruff]
 target-version = "py311"

@@ -103,6 +103,7 @@ def profile():
     data["model"] = "ollama/" + conf["model"]
     data["providers"]["ollama"]["models"] = {conf["model"]: item}
     data["providers"]["ollama"]["settings"]["baseURL"] = conf["url"] + "/v1"
+    data["skills"] = [str(Path(__file__).with_name("skills").resolve())]
     return data
 
 

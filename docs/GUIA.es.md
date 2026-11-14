@@ -244,3 +244,8 @@ Si tienes OpenCode instalado, `python scripts/check_profile_request.py` comprueb
 - [ ] Mas modelos/hardware evaluados y comparaciones independientes.
 
 Creado por **[nachoweb3](https://github.com/nachoweb3)**. Codigo y arte propios bajo [MIT](../LICENSE). Consulta [componentes y licencias externas](../THIRD_PARTY.md), [contribuciones](../CONTRIBUTING.md) y [changelog](../CHANGELOG.md).
+
+
+## Copiloto y skills / Copilot and skills (0.4.0)
+
+El arranque principal abre el copiloto. Consulta [COPILOTO.md](COPILOTO.md) para ayuda local, seis skills nativas, lectura explicita de registros y desarrollo. [Fuentes y licencias](CLAUDE-BUGHUNTER.md). Los comandos de tareas, revisiones y Docker siguen disponibles.

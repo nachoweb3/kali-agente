@@ -1,0 +1,16 @@
+$ kali-agente skills
+
+kali-auditoria-web
+  Entender aplicaciones HTTP/API, autenticacion y autorizacion, planificar comprobaciones concretas y corregir el codigo de una aplicacion.
+kali-desarrollar-utilidad
+  Crear scripts o aplicaciones, carpetas y archivos; modificar codigo, ejecutar pruebas, compilar y preparar o realizar un despliegue solicitado.
+kali-herramientas
+  Elegir y utilizar herramientas instaladas en Kali/Linux, explicar opciones, consultar ayuda local y diagnosticar comandos que fallan.
+kali-informe-evidencias
+  Organizar evidencias y redactar un informe de diagnostico o seguridad con pasos reproducibles, limites, correcciones y revision de secretos.
+kali-interpretar-salida
+  Interpretar errores, logs y salidas compartidas desde otra terminal, explicar su significado y decidir una comprobacion siguiente.
+kali-validar-hallazgo
+  Revisar un posible problema de seguridad, descartar falsos positivos y distinguir indicios, reproduccion e impacto demostrado.
+
+OpenCode puede cargarlas con su herramienta skill; tambien puedes mencionar @NOMBRE.

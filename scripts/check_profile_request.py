@@ -1,6 +1,7 @@
 """Optional OpenCode integration: verify actual request sampling with a local fixture."""
 
 import http.server
+import argparse
 import json
 import os
 from pathlib import Path
@@ -11,7 +12,15 @@ from kali_agente.settings import activate, atomic_json
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--skills",
+        action="store_true",
+        help="Verify native skill discovery and loading with OpenCode",
+    )
+    opts = parser.parse_args()
     requests = []
+    skill_state = {"index": None}
     paths = []
 
     class Handler(http.server.BaseHTTPRequestHandler):
@@ -76,6 +85,55 @@ def main():
                 )
                 return
             requests.append(data)
+            names = [item.get("function", {}).get("name") for item in data.get("tools", [])]
+            if opts.skills and skill_state["index"] is None and "skill" in names:
+                skill_state["index"] = len(requests) - 1
+                body = (
+                    "data: "
+                    + json.dumps(
+                        {
+                            "id": "fixture",
+                            "object": "chat.completion.chunk",
+                            "choices": [
+                                {
+                                    "index": 0,
+                                    "delta": {
+                                        "role": "assistant",
+                                        "tool_calls": [
+                                            {
+                                                "index": 0,
+                                                "id": "call_fixture_skill",
+                                                "type": "function",
+                                                "function": {
+                                                    "name": "skill",
+                                                    "arguments": json.dumps(
+                                                        {"id": "kali-herramientas"}
+                                                    ),
+                                                },
+                                            }
+                                        ],
+                                    },
+                                    "finish_reason": None,
+                                }
+                            ],
+                        }
+                    )
+                    + "\n\ndata: "
+                    + json.dumps(
+                        {
+                            "id": "fixture",
+                            "object": "chat.completion.chunk",
+                            "choices": [{"index": 0, "delta": {}, "finish_reason": "tool_calls"}],
+                        }
+                    )
+                    + "\n\ndata: [DONE]\n\n"
+                ).encode()
+                self.send_response(200)
+                self.send_header("Content-Type", "text/event-stream")
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+                return
             if data.get("stream"):
                 chunks = [
                     {
@@ -155,6 +213,20 @@ def main():
             assert requests[0].get("temperature") == 0, requests[0].keys()
             assert requests[0].get("seed") == 42, requests[0].keys()
             assert requests[0].get("max_tokens") == 2048, requests[0].keys()
+            if opts.skills:
+                index = skill_state["index"]
+                assert index is not None, [
+                    [item.get("function", {}).get("name") for item in request.get("tools", [])]
+                    for request in requests
+                ]
+                assert "kali-herramientas" in json.dumps(requests[index]), "Skill not discovered"
+                assert len(requests) >= index + 2, "Skill call did not reach the next model turn"
+                assert "Herramientas segun el objetivo" in json.dumps(
+                    requests[index + 1], ensure_ascii=False
+                ), "Skill content not loaded"
+                print(
+                    "Native OpenCode: skill discovered, loaded and supplied to the next model turn OK"
+                )
             print("OpenCode actual request: temperature=0, seed=42, max_tokens=2048 OK")
     finally:
         os.environ.clear()

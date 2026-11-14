@@ -1,6 +1,6 @@
 # Arte y capturas de la portada
 
-Las imagenes de la galeria corresponden a **Kali Agente v0.3.0**. No son capturas de una sesion de inferencia real presentada como un exito del modelo.
+Las imagenes de la galeria corresponden a **Kali Agente v0.4.0**. No son capturas de una sesion de inferencia real presentada como un exito del modelo.
 
 | Archivo | Procedencia |
 | --- | --- |
@@ -27,3 +27,5 @@ python scripts/render_readme_media.py --docker
 El script de la galeria utiliza repositorios temporales y un agente de prueba: no descarga modelos, no pide claves, no inicia un navegador ni ejecuta JavaScript. El render HTML bloquea la carga de recursos externos. Las dependencias de generacion son opcionales y no se necesitan para usar el agente.
 
 Las capturas son una demostracion de interfaz y flujo. Los resultados del modelo real estan publicados por separado en [evaluations](../evaluations/README.md).
+
+La captura `skills-copiloto.png` muestra la salida real de `kali-agente skills`, sin inferencia ni decisiones simuladas.

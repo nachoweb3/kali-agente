@@ -24,6 +24,12 @@ def main():
             )
 
         run("--help")
+        assert "kali-herramientas" in run("skills").stdout
+        assert "Herramientas segun el objetivo" in run("skills", "kali-herramientas").stdout
+        run("guias")
+        run("herramientas", "listar", "--json")
+        run("cuaderno", "smoke", "--objetivo", "Validar paquete instalado")
+        assert (root / ".kali-cuadernos" / "smoke" / "objetivo.json").is_file()
         run("configurar", "--modelo", "fixture:latest")
         run("banner", "--estatico")
         fake = root / "fake-opencode"

@@ -1,20 +1,23 @@
 <div align="center">
 
-# Kali Agente · v0.3.0
+# Kali Agente · v0.4.0
 
 ### Your local model. Your terminal. Changes you can review.
 
-<img src="assets/banner.gif" alt="Kali Agente v0.3.0 and the animated NACHO_WEB3 ASCII farmer robot" width="960" />
+<img src="assets/banner.gif" alt="Kali Agente v0.4.0 and the animated NACHO_WEB3 ASCII farmer robot" width="960" />
 
-[![Version 0.3.0](https://img.shields.io/badge/VERSION-0.3.0-80e9ff?style=for-the-badge&labelColor=0c1626)](https://github.com/nachoweb3/kali-agente/releases/tag/v0.3.0)
+[![Version 0.4.0](https://img.shields.io/badge/VERSION-0.4.0-80e9ff?style=for-the-badge&labelColor=0c1626)](https://github.com/nachoweb3/kali-agente/releases/tag/v0.4.0)
 [![CI](https://github.com/nachoweb3/kali-agente/actions/workflows/ci.yml/badge.svg)](https://github.com/nachoweb3/kali-agente/actions/workflows/ci.yml)
 [![MIT](https://img.shields.io/badge/license-MIT-bd9bff)](LICENSE)
 
 **A local coding agent by [nachoweb3](https://github.com/nachoweb3), built around OpenCode + Ollama.**
 
-[Download v0.3.0](https://github.com/nachoweb3/kali-agente/releases/tag/v0.3.0) · [Full guide](docs/GUIDE.en.md) · [Español](README.md)
+[Download v0.4.0](https://github.com/nachoweb3/kali-agente/releases/tag/v0.4.0) · [Full guide](docs/GUIDE.en.md) · [Español](README.md)
 
 </div>
+
+Version 0.4 adds a Kali cybersecurity and coding copilot, installed-tool discovery, 20 known local-help recipes, explicit terminal-log sharing, notebooks, and six native OpenCode skills loaded on demand. See the [copilot manual](docs/COPILOTO.md) and [upstream adaptations and licensing](docs/CLAUDE-BUGHUNTER.md). Adapted skills and methodology cards are CC BY 4.0, credited to Sachin Sharma / elementalsouls; original code is MIT. Native skill loading was verified against real OpenCode using a fixture model. A real local-model Nmap explanation took 117 seconds on CPU; these additions do not establish expert performance or improve historical benchmark scores.
+
 
 Turn a goal into file changes, real checks and a reviewable patch. Kali Agente coordinates Git worktrees, execution limits, independent verification, reports and confirmed integration around your chosen local model.
 
@@ -32,7 +35,7 @@ Turn a goal into file changes, real checks and a reviewable patch. Kali Agente c
 
 *Actual Docker integration check output, rendered as a terminal. No model inference is involved.*
 
-## What's in v0.3.0
+## What's in v0.4.0
 
 - Optional Docker environments for individual commands, without network or project writes by default.
 - Six evaluation cases, repetitions and manifests recording model digest, versions, hardware, settings and source hashes.
@@ -54,11 +57,11 @@ export PATH="$HOME/.local/bin:$PATH"
 kali-agente iniciar
 ```
 
-For CMD/PowerShell, extract the [Windows/WSL2 ZIP](https://github.com/nachoweb3/kali-agente/releases/download/v0.3.0/kali-agente-0.3.0-windows-wsl2.zip) and run `powershell -NoProfile -ExecutionPolicy Bypass -File .\windows\install.ps1`. See the [full guide](docs/GUIDE.en.md) for prerequisites and commands. The CLI currently defaults to Spanish.
+For CMD/PowerShell, extract the [Windows/WSL2 ZIP](https://github.com/nachoweb3/kali-agente/releases/download/v0.4.0/kali-agente-0.4.0-windows-wsl2.zip) and run `powershell -NoProfile -ExecutionPolicy Bypass -File .\windows\install.ps1`. See the [full guide](docs/GUIDE.en.md) for prerequisites and commands. The CLI currently defaults to Spanish.
 
 ## Evidence and scope
 
-The v0.3.0 local validation passed 50 tests plus 9 fixture/validator subtests. CI covers Python 3.11–3.14, Windows script parsing and real Docker checks. [Actions](https://github.com/nachoweb3/kali-agente/actions/workflows/ci.yml) · [Validation](VALIDATION.md).
+The v0.4.0 local validation passed 62 tests plus 9 fixture/validator subtests. CI covers Python 3.11–3.14, Windows script parsing and real Docker checks. [Actions](https://github.com/nachoweb3/kali-agente/actions/workflows/ci.yml) · [Validation](VALIDATION.md).
 
 Actual model evaluations remain separate: the published CPU run verified 0/3 new cases within a 180-second budget per task. [Conditions and results](evaluations/README.md). Demo screenshots are not evidence of model capability.
 

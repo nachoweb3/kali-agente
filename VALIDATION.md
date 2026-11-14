@@ -1,8 +1,18 @@
 # Validacion
 
+## 0.4.0
+
+- 62 pruebas y 9 subtests aprobados en Kali/WSL2 con Python 3.14; formato Ruff y comprobaciones F aprobados.
+- Wheel instalado en otro entorno y ejecutado fuera del codigo fuente: skills empaquetadas, guias, inventario, cuaderno y flujo completo anterior aprobados.
+- OpenCode 2.3.0 real contra servidor simulado: anuncia `kali-herramientas`, ejecuta su carga mediante `skill` y entrega su contenido al siguiente turno. Comprobado desde el wheel instalado con `scripts/check_profile_request.py --skills`. No demuestra seleccion autonoma correcta por Qwen.
+- Consulta real al modelo `nacho-coder:latest`, con ayuda local de Nmap: respondio sin escanear destinos, codigo 0, 117.23 segundos en CPU. No es una evaluacion de dominio general ni una mejora medida respecto de los benchmarks anteriores.
+- Instalacion Linux y lanzadores CMD/PowerShell verificados: version 0.4.0, conexion con Ollama, modelo existente y catalogo de seis skills. Copia del lanzador anterior conservada localmente.
+- Registro real con util-linux `script`: argumentos literales, codigo de salida, permisos privados y rechazo de sobrescritura; lectura acotada rechaza FIFO y limpia secuencias de control.
+- Las evaluaciones historicas reales y sus resultados limitados se conservan en `evaluations/`.
+
 ## Presentacion del repositorio
 
-La portada muestra la version 0.3.0, una galeria y enlaces al manual completo. Las vistas de terminal se generan a partir de salidas del programa; el flujo utiliza un agente simulado identificado como tal. La vista de revision es un render estatico del HTML generado por la herramienta, sin navegador, JavaScript ni recursos externos. Las cuatro imagenes y el banner actualizado se inspeccionaron visualmente. [Procedencia y regeneracion](docs/CAPTURAS.md).
+La portada muestra la version 0.4.0, una galeria y enlaces al manual completo. Las vistas de terminal se generan a partir de salidas del programa; el flujo utiliza un agente simulado identificado como tal. La vista de revision es un render estatico del HTML generado por la herramienta, sin navegador, JavaScript ni recursos externos. Las cuatro imagenes y el banner actualizado se inspeccionaron visualmente. [Procedencia y regeneracion](docs/CAPTURAS.md).
 
 ## 0.3.0
 
