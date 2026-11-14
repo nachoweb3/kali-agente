@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kali-agente"
+version = "0.1.0"
+description = "Local coding agent with OpenCode, Ollama, isolated Git worktrees and independent verification"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{name = "nachoweb3"}]
+dependencies = []
+classifiers = ["Operating System :: POSIX :: Linux", "Programming Language :: Python :: 3"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.17", "build>=1", "Pillow>=11", "jsonschema>=4"]
+
+[project.scripts]
+kali-agente = "kali_agente.cli:entrypoint"
+
+[project.urls]
+Homepage = "https://github.com/nachoweb3/kali-agente"
+Issues = "https://github.com/nachoweb3/kali-agente/issues"
+
+[tool.setuptools.package-data]
+kali_agente = ["profile.json"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
