@@ -133,6 +133,8 @@ def apply(identifier):
     directory, report = task_record(identifier)
     if report.get("aplicacion"):
         raise RuntimeError("Esta tarea ya se integro")
+    if report.get("limpieza"):
+        raise RuntimeError("El worktree se limpio. Revisa o exporta el parche conservado.")
     if report["estado"] != "verificado":
         raise RuntimeError("Solo se pueden aplicar tareas verificadas. Corrige o retoma la tarea.")
     patch = directory / "cambios.patch"
@@ -198,6 +200,7 @@ def dashboard(argv):
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--seguir", action="store_true")
+    parser.add_argument("--archivo", action="store_true")
     opts = parser.parse_args(argv)
     if opts.seguir and not sys.stdout.isatty():
         raise ValueError("--seguir requiere una terminal interactiva")
@@ -205,11 +208,13 @@ def dashboard(argv):
         if opts.seguir:
             print("\033[2J\033[H", end="")
         print("KALI AGENTE / TAREAS" + (" / Ctrl+C para salir del panel" if opts.seguir else ""))
-        paths = sorted((c.STATE / "tareas").glob("*/informe.json"), reverse=True)[:20]
+        paths = sorted((c.STATE / "tareas").glob("*/informe.json"), reverse=True)
         if not paths:
             print("Todavia no hay tareas. Usa preparar y trabajar dentro de un repositorio Git.")
         for path in paths:
             report = json.loads(path.read_text())
+            if bool(report.get("archivado")) != opts.archivo:
+                continue
             live_path = path.parent / "progreso.json"
             live = json.loads(live_path.read_text()) if live_path.exists() else {}
             status = "aplicada" if report.get("aplicacion") else report["estado"]

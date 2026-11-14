@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0
+
+- Comandos aislados opcionales en Docker con limites, sin red ni escritura por defecto y sin descargas implicitas.
+- Tres casos nuevos de evaluacion: varios archivos, JSONL y CLI. Repeticiones y manifiestos de modelo, versiones, hardware y hashes.
+- Perfiles de peticion equilibrado, determinista y contexto-amplio, con temperatura y seed.
+- Revision grafica HTML local, archivo/restauracion de tareas, exportacion ZIP y limpieza confirmada de worktrees con respaldo del parche.
+- Pruebas de los limites del contenedor y CI Docker separada.
+
 ## 0.2.0
 
 - Primer arranque guiado con comprobacion de Git, OpenCode y Ollama y seleccion de modelos ya instalados.

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kali-agente"
-version = "0.2.0"
+version = "0.3.0"
 description = "Local coding agent with OpenCode, Ollama, isolated Git worktrees and independent verification"
 readme = "README.md"
 requires-python = ">=3.11"

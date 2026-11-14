@@ -2,7 +2,9 @@ include LICENSE README.md README.en.md CHANGELOG.md THIRD_PARTY.md
 include CONTRIBUTING.md SECURITY.md .gitattributes .gitignore
 include VALIDATION.md
 recursive-include .github *.yml
-recursive-include assets *.gif *.png
+recursive-include assets *.gif *.png *.html
+recursive-include evaluations *.json *.md
+include evaluations/Modelfile.cpu
 recursive-include scripts *.py *.sh
 recursive-include windows *.ps1 *.cmd
 recursive-include tests *.py

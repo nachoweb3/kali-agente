@@ -1,0 +1,195 @@
+{
+  "tipo": "ejecucion_real_local",
+  "version": "0.3.0",
+  "correctos": 0,
+  "total": 3,
+  "casos": [
+    {
+      "caso": "multiarchivo",
+      "correcto": false,
+      "estado": "requiere_revision",
+      "segundos_agente": 180.07,
+      "acciones": 10,
+      "fallo_inicial_reproducido": true,
+      "motivo_parada": "tiempo_maximo",
+      "checks_finales": [
+        {
+          "nombre": "git-diff-check",
+          "codigo": 0,
+          "timeout": false
+        },
+        {
+          "nombre": "validacion-multiarchivo",
+          "codigo": 1,
+          "timeout": false
+        }
+      ],
+      "manifest": {
+        "version": "0.3.0",
+        "runner_sha256": "71fd555faa4a6af4a009368713cf802e8417b73d4bdb71e2b07b1d34c245972e",
+        "suite_sha256": "19a53e8c71ec2d6adf673a92ca6010aebbdccc0c3df3da6f5b0027ac4475afaf",
+        "configuracion": {
+          "model": "nacho-coder:latest",
+          "context": 16384,
+          "output": 2048,
+          "profile": "determinista"
+        },
+        "peticion_sha256": "a22cd68870e3c5971710ee934b75a597e0b3bf1b1d46dd29d0777a492b5262ae",
+        "muestreo": {
+          "temperature": 0,
+          "seed": 42
+        },
+        "modelo_digest": "7b589122453736be8eec20ddb6dd78c2b7e1f08c7ed7afb55d8edb7d33089c58",
+        "modelo_bytes": 18556700815,
+        "versiones": {
+          "python": "3.14.7",
+          "opencode": "opencode v2.3.0",
+          "git": "git version 2.53.0",
+          "ollama": "0.40.16"
+        },
+        "hardware": {
+          "cpu": "Intel(R) Core(TM) i9-14900KF",
+          "arquitectura": "x86_64",
+          "cpus": 16,
+          "memoria_bytes": 33657044992
+        },
+        "limites": {
+          "repeticiones": 1,
+          "segundos": 180,
+          "acciones": 40
+        },
+        "runner_sha256_lf": "13aa0d6a71c80f212d01829f97b424b7931f830a2ebfafe92427ae263b622296"
+      }
+    },
+    {
+      "caso": "jsonl",
+      "correcto": false,
+      "estado": "requiere_revision",
+      "segundos_agente": 181.27,
+      "acciones": 8,
+      "fallo_inicial_reproducido": true,
+      "motivo_parada": "tiempo_maximo",
+      "checks_finales": [
+        {
+          "nombre": "git-diff-check",
+          "codigo": 0,
+          "timeout": false
+        },
+        {
+          "nombre": "validacion-jsonl",
+          "codigo": 1,
+          "timeout": false
+        }
+      ],
+      "manifest": {
+        "version": "0.3.0",
+        "runner_sha256": "71fd555faa4a6af4a009368713cf802e8417b73d4bdb71e2b07b1d34c245972e",
+        "suite_sha256": "19a53e8c71ec2d6adf673a92ca6010aebbdccc0c3df3da6f5b0027ac4475afaf",
+        "configuracion": {
+          "model": "nacho-coder:latest",
+          "context": 16384,
+          "output": 2048,
+          "profile": "determinista"
+        },
+        "peticion_sha256": "a22cd68870e3c5971710ee934b75a597e0b3bf1b1d46dd29d0777a492b5262ae",
+        "muestreo": {
+          "temperature": 0,
+          "seed": 42
+        },
+        "modelo_digest": "7b589122453736be8eec20ddb6dd78c2b7e1f08c7ed7afb55d8edb7d33089c58",
+        "modelo_bytes": 18556700815,
+        "versiones": {
+          "python": "3.14.7",
+          "opencode": "opencode v2.3.0",
+          "git": "git version 2.53.0",
+          "ollama": "0.40.16"
+        },
+        "hardware": {
+          "cpu": "Intel(R) Core(TM) i9-14900KF",
+          "arquitectura": "x86_64",
+          "cpus": 16,
+          "memoria_bytes": 33657044992
+        },
+        "limites": {
+          "repeticiones": 1,
+          "segundos": 180,
+          "acciones": 40
+        },
+        "runner_sha256_lf": "13aa0d6a71c80f212d01829f97b424b7931f830a2ebfafe92427ae263b622296"
+      }
+    },
+    {
+      "caso": "cli",
+      "correcto": false,
+      "estado": "requiere_revision",
+      "segundos_agente": 180.82,
+      "acciones": 5,
+      "fallo_inicial_reproducido": true,
+      "motivo_parada": "tiempo_maximo",
+      "checks_finales": [
+        {
+          "nombre": "git-diff-check",
+          "codigo": 0,
+          "timeout": false
+        },
+        {
+          "nombre": "validacion-cli",
+          "codigo": 1,
+          "timeout": false
+        }
+      ],
+      "manifest": {
+        "version": "0.3.0",
+        "runner_sha256": "71fd555faa4a6af4a009368713cf802e8417b73d4bdb71e2b07b1d34c245972e",
+        "suite_sha256": "19a53e8c71ec2d6adf673a92ca6010aebbdccc0c3df3da6f5b0027ac4475afaf",
+        "configuracion": {
+          "model": "nacho-coder:latest",
+          "context": 16384,
+          "output": 2048,
+          "profile": "determinista"
+        },
+        "peticion_sha256": "a22cd68870e3c5971710ee934b75a597e0b3bf1b1d46dd29d0777a492b5262ae",
+        "muestreo": {
+          "temperature": 0,
+          "seed": 42
+        },
+        "modelo_digest": "7b589122453736be8eec20ddb6dd78c2b7e1f08c7ed7afb55d8edb7d33089c58",
+        "modelo_bytes": 18556700815,
+        "versiones": {
+          "python": "3.14.7",
+          "opencode": "opencode v2.3.0",
+          "git": "git version 2.53.0",
+          "ollama": "0.40.16"
+        },
+        "hardware": {
+          "cpu": "Intel(R) Core(TM) i9-14900KF",
+          "arquitectura": "x86_64",
+          "cpus": 16,
+          "memoria_bytes": 33657044992
+        },
+        "limites": {
+          "repeticiones": 1,
+          "segundos": 180,
+          "acciones": 40
+        },
+        "runner_sha256_lf": "13aa0d6a71c80f212d01829f97b424b7931f830a2ebfafe92427ae263b622296"
+      }
+    }
+  ],
+  "limite": "Una repeticion por caso, 180 segundos y 40 acciones. CPU local, con otras comprobaciones de desarrollo en paralelo. No representa una comparacion controlada de modelos. No se han contado recuperaciones posteriores como aciertos iniciales.",
+  "servidor_ollama_observado_tras_ejecucion": {
+    "parameters": "num_ctx                        16384\nnum_gpu                        0\nnum_predict                    2048\nrepeat_penalty                 1.05\nstop                           \"<|im_start|>\"\nstop                           \"<|im_end|>\"\nstop                           \"<|endoftext|>\"\ntemperature                    0.7\ntop_k                          20\ntop_p                          0.8",
+    "details": {
+      "parent_model": "huihui_ai/qwen3-coder-abliterated:30b",
+      "format": "gguf",
+      "family": "qwen3moe",
+      "families": [
+        "qwen3moe"
+      ],
+      "parameter_size": "30.5B",
+      "quantization_level": "Q4_K_M",
+      "runner": "llamacpp"
+    }
+  },
+  "nota_hashes": "runner_sha256 firma los bytes originales; runner_sha256_lf normaliza CRLF a LF para comparar con clones y paquetes Linux."
+}

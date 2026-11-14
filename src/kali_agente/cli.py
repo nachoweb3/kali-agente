@@ -22,6 +22,12 @@ kali-agente iniciar [--modelo ID]    Primer arranque guiado
 kali-agente tareas [--seguir]       Panel y progreso de tareas
 kali-agente revisar ID             Muestra checks y parche
 kali-agente aplicar ID             Verifica y pide confirmar la integracion
+kali-agente revisar ID --grafico   Genera una revision HTML local
+kali-agente archivar ID            Oculta una tarea del panel sin borrar datos
+kali-agente exportar ID --destino tarea.zip
+kali-agente limpiar ID [--descartar]  Libera el worktree con confirmacion
+kali-agente aislado --imagen IMAGEN -- COMANDO
+kali-agente perfiles [NOMBRE]      Lista o selecciona un perfil reproducible
 kali-agente configurar [--modelo ID] [--url http://localhost:11434]
                        [--contexto 16384] [--salida 2048]
 kali-agente estado                  Diagnostica Ollama y OpenCode
@@ -71,21 +77,43 @@ trabajar, retomar y banco aprueban herramientas automaticamente. Revisa sus parc
         from .experience import dashboard
 
         return dashboard(args[1:])
-    if args and args[0] in ("revisar", "aplicar"):
+    if args and args[0] == "aislado":
+        from .sandbox import run
+
+        return run(args[1:])
+    if args and args[0] == "perfiles":
+        from .model_profiles import select
+
+        return select(args[1:])
+    if args and args[0] in ("revisar", "aplicar", "archivar", "exportar", "limpiar"):
         from .experience import review, apply
         from . import coordinador_agente as coordinator
         import fcntl
 
-        parser = argparse.ArgumentParser()
-        parser.add_argument("id")
-        opts = parser.parse_args(args[1:])
         coordinator.STATE.mkdir(parents=True, exist_ok=True)
         with (coordinator.STATE / "ejecucion.lock").open("a+") as lock:
             try:
                 fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
             except BlockingIOError:
                 raise RuntimeError("Hay otra tarea o integracion en marcha") from None
-            return review(opts.id) if args[0] == "revisar" else apply(opts.id)
+            if args[0] in ("archivar", "exportar", "limpiar"):
+                from .task_tools import manage
+
+                return manage(args[0], args[1:])
+            parser = argparse.ArgumentParser()
+            parser.add_argument("id")
+            parser.add_argument("--grafico", action="store_true")
+            opts = parser.parse_args(args[1:])
+            if args[0] == "revisar":
+                result = review(opts.id)
+                if opts.grafico:
+                    from .task_tools import graphical
+
+                    graphical(opts.id)
+                return result
+            if opts.grafico:
+                raise ValueError("--grafico se usa con revisar")
+            return apply(opts.id)
     if not args and not (config_dir() / "config.json").exists() and sys.stdin.isatty():
         from .experience import setup
 

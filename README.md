@@ -33,9 +33,11 @@ Nacio para usar Qwen3-Coder abliterated desde Kali. Esta distribucion conserva e
 | Retomar | Continuar la misma tarea, worktree y sesion, conservando el historial. |
 | Revision | Consultar el informe, los logs y `cambios.patch` antes de integrar. |
 | Integracion | `revisar ID` y `aplicar ID`: revision del parche, checks renovados y confirmacion antes de preparar cambios en Git. |
-| Banco optativo | Tres ejercicios pequenos: corregir Python, implementar una funcion y arreglar una API HTTP. |
+| Banco optativo | Seis ejercicios: Python, API HTTP, varios archivos, JSONL y CLI, con manifiestos de ejecucion. |
+| Herramientas aisladas | `aislado` ejecuta un comando en Docker, sin red y con el proyecto de solo lectura por defecto. |
+| Gestion de tareas | Archivar/restaurar, exportar informes y liberar worktrees con respaldo y confirmacion. |
 
-**Los worktrees separan cambios de Git, pero no son un sandbox.** El shell tiene acceso real a tu cuenta. `auto`, `trabajar`, `retomar` y `banco` aprueban herramientas automaticamente; utilizalos en entornos de confianza y revisa sus resultados. Consulta [el alcance de seguridad](SECURITY.md).
+**Los worktrees separan cambios de Git, pero no son un sandbox.** El shell del agente tiene acceso real a tu cuenta. El comando opcional `aislado` contiene solamente la herramienta que ejecutes mediante el, no toda la sesion. `auto`, `trabajar`, `retomar` y `banco` aprueban herramientas automaticamente; utilizalos en entornos de confianza y revisa sus resultados. Consulta [el alcance de seguridad](SECURITY.md).
 
 ## Requisitos
 
@@ -132,6 +134,7 @@ Para integrar una tarea verificada:
 
 ```bash
 kali-agente revisar ID_DE_TAREA
+kali-agente revisar ID_DE_TAREA --grafico
 kali-agente aplicar ID_DE_TAREA
 # Escribe APLICAR seguido del identificador cuando lo solicite.
 git diff --cached
@@ -141,6 +144,55 @@ git diff --cached
 `revisar` muestra los checks y el parche y registra su huella. `aplicar` exige esa revision, vuelve a ejecutar los checks originales y comprueba que el worktree coincide con el parche, los archivos protegidos siguen iguales y el proyecto original conserva el commit base y esta limpio. Vuelve a comprobar el estado tras la confirmacion. Si algo no coincide, rechaza la integracion. No hay opcion `--yes`: requiere una terminal interactiva.
 
 El parche se aplica con `git apply --index`: cambia los archivos y los deja preparados en el indice, **sin crear un commit**. Los checks se ejecutan en el worktree antes de integrar; las comprobaciones no garantizan que el codigo carezca de defectos. Revisa `git diff --cached`. Los informes muestran las rutas y el registro de integracion. Los worktrees e informes se conservan hasta que los elimines manualmente con las herramientas de Git y del sistema.
+
+`--grafico` genera un archivo `revision.html` con las comprobaciones, lineas originales/nuevas y diferencias resaltadas. Abre la ruta indicada en tu navegador. Es un HTML local sin JavaScript ni recursos externos; no inicia servidores ni aplica cambios desde la pagina. [Ejemplo HTML con datos ficticios](assets/revision-demo.html) (descargalo para abrirlo; GitHub muestra su codigo).
+
+## Herramientas en contenedores opcionales
+
+Requiere Docker con daemon local accesible desde Linux/WSL2 y una imagen de confianza instalada. El programa nunca descarga imagenes implicitamente ni vuelve a ejecutar en el host si Docker falla. Instala la imagen explicitamente, por ejemplo:
+
+```bash
+docker pull python:3.13-alpine
+kali-agente aislado --imagen python:3.13-alpine -- python -c "print('Entorno aislado')"
+kali-agente aislado --imagen python:3.13-alpine -- python -m unittest discover
+# Solo si necesitas permitir modificar la carpeta montada:
+kali-agente aislado --imagen python:3.13-alpine --escribir -- python script.py
+```
+
+Solo se monta la carpeta actual como `/workspace`; usa `--carpeta RUTA` para escoger otra. Por defecto, tanto esa carpeta como la raiz del contenedor son de solo lectura, y la red esta deshabilitada. Hay un `/tmp` temporal de 64 MiB, limites de 512 MiB de memoria, una CPU, 128 procesos y 90 segundos. `--segundos N` cambia el plazo; `--red` habilita red bridge y `--escribir` permite escribir en el proyecto. No se montan automaticamente tu home, variables del host ni el socket de Docker.
+
+La herramienta debe existir en la imagen. Un worktree contiene una referencia `.git` que puede apuntar fuera del montaje: no presupongas que Git funcionara dentro del contenedor. Puedes usar este comando como check de `.kali-agente.json` o pedir al agente que lo utilice para una herramienta concreta; sus demas llamadas a shell siguen ejecutandose en el host. Para fijar una imagen reproducible, usa su referencia `imagen@sha256:DIGEST`. Los contenedores comparten kernel y no sustituyen una VM frente a codigo hostil.
+
+## Archivo y limpieza de tareas
+
+```bash
+kali-agente archivar ID
+kali-agente tareas --archivo
+kali-agente archivar ID --restaurar
+kali-agente exportar ID --destino tarea.zip
+kali-agente limpiar ID
+# Si revisaste los cambios pendientes y quieres descartar el worktree:
+kali-agente limpiar ID --descartar
+```
+
+Archivar oculta la tarea del panel habitual sin mover ni borrar archivos. Exportar crea un ZIP nuevo con informe, parche, revision HTML, progreso y parche de respaldo de limpieza disponibles; excluye el codigo del worktree, logs y archivos arbitrarios. Puede contener rutas y objetivos privados: revisalo antes de compartirlo. Nunca sobrescribe un ZIP existente.
+
+Limpiar comprueba que la carpeta es un worktree registrado, conserva la rama y guarda el parche actual en `respaldo-limpieza/cambios.patch`. Exige escribir `LIMPIAR ID` en una terminal interactiva. Si hay cambios sin commit, requiere ademas `--descartar`; si hay archivos ignorados, rechaza la limpieza para evitar perderlos. Revalida el contenido despues de confirmar. Elimina solo el worktree, conserva informes y rama y archiva la tarea. No permite retomar un worktree eliminado.
+
+## Perfiles y evaluacion reproducible
+
+```bash
+kali-agente perfiles
+kali-agente perfiles determinista --modelo nacho-coder:latest
+kali-agente banco --caso multiarchivo --repeticiones 2 --segundos 300 --acciones 40
+kali-agente banco --caso todos
+```
+
+Hay seis casos: deduplicacion estable, normalizacion de texto, API HTTP, una correccion en varios archivos, lectura de JSONL y una CLI con codigos de salida. Todos empiezan con un fallo que el validador externo debe reproducir. Las comprobaciones de referencia suman 41 aserciones por recorrido completo. `--repeticiones` admite 1..10; cada repeticion usa un repositorio y una sesion nuevos.
+
+Los perfiles `equilibrado`, `determinista` y `contexto-amplio` fijan el presupuesto de contexto/salida y los parametros de peticion temperatura/seed. Se aplican al modelo que ya tengas instalado; no son pesos ni modelos nuevos. El presupuesto de contexto de OpenCode no cambia automaticamente la configuracion `num_ctx` del modelo en Ollama. Comprueba que el servidor/modelo soporte el contexto elegido. Una seed fija no garantiza resultados identicos entre equipos, versiones o ejecuciones.
+
+Cada banco guarda `manifest.json` y `resultados.json` en el estado local: modelo/digest, tamanos, versiones de Python/OpenCode/Git/Ollama, CPU/memoria, perfil, parametros, limites y hashes de suite, validador/configuracion y codigo del runner. Conserva esos archivos junto al resultado para comparar ejecuciones. No publica automaticamente datos del equipo ni logs. Consulta [las evaluaciones registradas](evaluations/README.md).
 
 Ejemplo de `.kali-agente.json` que debes versionar junto al proyecto:
 
@@ -192,7 +244,9 @@ Las pruebas de control usan repositorios temporales y un ejecutable simulado. Co
 
 Consulta [las verificaciones y limites de esta release](VALIDATION.md). El estado de Actions muestra los resultados de la matriz publicada.
 
-El banco con modelo real es independiente y optativo: `kali-agente banco --caso todos`. Puede tardar decenas de minutos y consumir mucha memoria. Sus tres tareas no constituyen un ranking del modelo ni una promesa para proyectos reales.
+El banco con modelo real es independiente y optativo: `kali-agente banco --caso todos`. Puede tardar decenas de minutos y consumir mucha memoria. Sus seis tareas no constituyen un ranking del modelo ni una promesa para proyectos reales. Para probar el contenedor: descarga la imagen indicada y ejecuta `python scripts/check_sandbox.py`.
+
+Si tienes OpenCode instalado, `python scripts/check_profile_request.py` comprueba los parametros de la peticion real contra un servidor local simulado, sin descargar ni ejecutar un modelo.
 
 ## Hoja de ruta
 
@@ -202,8 +256,10 @@ El banco con modelo real es independiente y optativo: `kali-agente banco --caso 
 - [x] Instalacion en Linux y lanzadores Windows mediante WSL2.
 - [x] Primer arranque guiado y diagnostico de dependencias.
 - [x] Panel de progreso y revision/integracion de parches con confirmacion.
-- [ ] Entornos aislados opcionales para ejecutar herramientas.
-- [ ] Mas casos de evaluacion y perfiles de modelos con resultados reproducibles.
-- [ ] Gestion sencilla de tareas antiguas y revision grafica de parches.
+- [x] Entornos aislados opcionales para comandos concretos con Docker.
+- [x] Seis casos de evaluacion y perfiles con manifiestos reproducibles.
+- [x] Archivo, exportacion, limpieza de worktrees y revision grafica local de parches.
+- [ ] Aislamiento de la sesion completa del agente.
+- [ ] Mas modelos/hardware evaluados y comparaciones independientes.
 
 Creado por **[nachoweb3](https://github.com/nachoweb3)**. Codigo y arte propios bajo [MIT](LICENSE). Consulta [componentes y licencias externas](THIRD_PARTY.md), [contribuciones](CONTRIBUTING.md) y [changelog](CHANGELOG.md).

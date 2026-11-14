@@ -734,8 +734,21 @@ def main():
     sub.add_parser("resultados")
     sub.add_parser("verificar")
     bench = sub.add_parser("banco")
+    bench.add_argument("--repeticiones", type=int, default=1)
+    bench.add_argument("--segundos", type=int, default=600)
+    bench.add_argument("--acciones", type=int, default=30)
     bench.add_argument(
-        "--caso", choices=["todos", "python-error", "python-funcion", "web-api"], default="todos"
+        "--caso",
+        choices=[
+            "todos",
+            "python-error",
+            "python-funcion",
+            "web-api",
+            "multiarchivo",
+            "jsonl",
+            "cli",
+        ],
+        default="todos",
     )
     opts = parser.parse_args()
     if opts.command == "preparar":
@@ -775,5 +788,5 @@ def main():
     elif opts.command == "banco":
         from .banco_agente import run_bank
 
-        return run_bank(opts.caso)
+        return run_bank(opts.caso, opts.repeticiones, opts.segundos, opts.acciones)
     return 0

@@ -69,6 +69,11 @@ def validate_settings(result):
         or not 128 <= result["output"] <= result["context"] // 2
     ):
         raise ValueError("Contexto: 8192..1048576; salida: 128..contexto/2")
+    if type(result.get("seed", 42)) is not int or not 0 <= result.get("seed", 42) <= 2147483647:
+        raise ValueError("Seed valido: entero 0..2147483647")
+    temperature = result.get("temperature", 0.1)
+    if type(temperature) not in (int, float) or not 0 <= temperature <= 2:
+        raise ValueError("Temperatura valida: 0..2")
     return result
 
 
@@ -90,6 +95,11 @@ def profile():
     data = json.loads(Path(__file__).with_name("profile.json").read_text())
     item = next(iter(data["providers"]["ollama"]["models"].values()))
     item["limit"] = {"context": conf["context"], "output": conf["output"]}
+    item["body"] = {
+        "temperature": conf.get("temperature", 0.1),
+        "seed": conf.get("seed", 42),
+        "max_tokens": conf["output"],
+    }
     data["model"] = "ollama/" + conf["model"]
     data["providers"]["ollama"]["models"] = {conf["model"]: item}
     data["providers"]["ollama"]["settings"]["baseURL"] = conf["url"] + "/v1"

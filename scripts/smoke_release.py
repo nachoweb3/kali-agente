@@ -59,6 +59,7 @@ def main():
                 KALI_AGENT_OLLAMA_URL=f"http://127.0.0.1:{server.server_port}",
             )
             run("iniciar", "--modelo", "fixture:latest")
+            run("perfiles", "determinista")
             project = root / "project"
             project.mkdir()
             (project / "codigo.py").write_text("valor = 1\n")
@@ -95,7 +96,14 @@ def main():
             assert (project / "codigo.py").read_text() == "valor = 1\n"
             patch = Path(report["worktree"]).parent / "cambios.patch"
             assert patch.exists()
-            run("revisar", report["id"])
+            run("revisar", report["id"], "--grafico")
+            assert (patch.parent / "revision.html").exists()
+            run("archivar", report["id"])
+            assert report["id"] not in run("tareas").stdout
+            assert report["id"] in run("tareas", "--archivo").stdout
+            run("archivar", report["id"], "--restaurar")
+            run("exportar", report["id"], "--destino", str(root / "export.zip"))
+            assert (root / "export.zip").exists()
             assert report["id"] in run("tareas").stdout
             refused = subprocess.run(
                 [*cli, "aplicar", report["id"]],
@@ -130,7 +138,7 @@ def main():
             )
             assert "codigo.py" in staged
             print(
-                "Installed wheel: wizard, dashboard, review, interactive integration, CLI, worktree and verification OK"
+                "Installed wheel: profiles, archive/export, HTML review, wizard, dashboard, integration and verification OK"
             )
         finally:
             server.shutdown()

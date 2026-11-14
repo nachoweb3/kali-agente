@@ -1,5 +1,14 @@
 # Validacion
 
+## 0.3.0
+
+- 50 pruebas locales aprobadas (y 9 subtests de fixtures/validadores) en Python 3.14 sobre Linux / WSL2.
+- Docker real: proyecto y raiz de solo lectura, red deshabilitada, ausencia del socket y de una variable privada del host, escritura explicita y limpieza por timeout comprobados con `scripts/check_sandbox.py`.
+- OpenCode 2.3.0 real conectado a un servidor local de prueba: se comprobo que su peticion transmite `temperature=0`, `seed=42` y `max_tokens=2048` con `scripts/check_profile_request.py`. No requiere un modelo real.
+- Perfil validado contra el esquema oficial de OpenCode. Pruebas de contenido HTML escapado y CSP aprobadas; la apertura visual automatizada de archivos locales fue bloqueada por la politica del navegador y no se afirma una inspeccion visual de esa pagina.
+- Revision HTML, perfiles, archivo/restauracion y exportacion incluidos en la prueba completa del paquete instalado. La limpieza conserva la rama y el parche y se prueba con cancelacion, cambios pendientes y archivos ignorados.
+- Las evaluaciones reales se documentan por separado en `evaluations/`; sus resultados no se sustituyen por los de las pruebas unitarias.
+
 ## 0.2.0
 
 - 37 pruebas locales aprobadas en Linux / WSL2, Python 3.14: incluye revision, integracion, confirmacion, cambios concurrentes del original, parches modificados y primer arranque.

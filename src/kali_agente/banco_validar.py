@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import sys
 import threading
+import subprocess
 import urllib.error
 import urllib.request
 from http.server import HTTPServer
@@ -18,6 +19,51 @@ def load(root, name):
 
 
 def validate(case, root):
+    if case == "multiarchivo":
+        sys.path.insert(0, str(root))
+        try:
+            total = load(root, "precios.py").total
+            factura = load(root, "factura.py").factura
+            items = [{"precio": 10, "cantidad": 2}, {"precio": 5, "cantidad": 3}]
+            original = json.dumps(items, sort_keys=True)
+            assert total(items) == 35
+            assert factura(items, 20) == 42
+            assert total([]) == 0
+            assert factura([], 21) == 0
+            assert factura(items, 0) == 35
+            assert json.dumps(items, sort_keys=True) == original
+        finally:
+            sys.path.pop(0)
+        return 6
+    if case == "jsonl":
+        fn = load(root, "lector.py").leer
+        assert fn(' {"x":1}\n\n{"y":2}\n') == [{"x": 1}, {"y": 2}]
+        assert fn(" \n") == []
+        for text in ('{"x":', "[]", "null", "42"):
+            try:
+                fn(text)
+            except ValueError:
+                pass
+            else:
+                raise AssertionError("Debia rechazar: " + text)
+        return 6
+    if case == "cli":
+
+        def run(*args):
+            return subprocess.run(
+                [sys.executable, str(root / "main.py"), *args],
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+
+        assert run("--nombre", "Ada").stdout == "Hola, Ada!\n"
+        assert run("--nombre", "Ada Lovelace").stdout == "Hola, Ada Lovelace!\n"
+        assert run("--nombre", "Ada").returncode == 0
+        assert run("--help").returncode == 0
+        assert run().returncode == 2
+        assert run("--desconocido").returncode == 2
+        return 6
     if case == "python-error":
         fn = load(root, "listas.py").sin_duplicados
         for values, expected in [
