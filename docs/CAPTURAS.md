@@ -1,5 +1,19 @@
 # Arte y capturas de la portada
 
+## Ilustraciones del recorrido conversacional
+
+`assets/story/conversation.gif` y su alternativa PNG ilustran una petición combinada y un cambio de objetivo en el siguiente turno. `capabilities.png` presenta los seis recursos internos; `workflow.png` compara conversación y tarea con worktree. Son diagramas editoriales, no capturas, respuestas reales ni mediciones del modelo. La animación muestra pasos conceptuales, no tiempos de ejecución.
+
+Se generan sin red ni inferencia, con Pillow y fuentes DejaVu:
+
+```bash
+python scripts/render_visual_story.py
+```
+
+Textos ficticios sin datos personales. El generador y las ilustraciones propias se distribuyen bajo MIT. Las skills adaptadas conservan su licencia y atribución independientes.
+
+## Capturas y demostraciones
+
 Las imagenes de la galeria corresponden a **Kali Agente v0.4.0**. No son capturas de una sesion de inferencia real presentada como un exito del modelo.
 
 | Archivo | Procedencia |

@@ -16,6 +16,16 @@
 
 </div>
 
+## One conversation, multiple capabilities
+
+Start `kali-agente` and describe your objective naturally. The model selects and combines relevant skills each turn; you do not need to choose skill names or modes.
+
+<img src="assets/story/conversation.gif" alt="Illustrated conversational workflow, not a real inference recording; Spanish labels" width="1100" />
+
+<img src="assets/story/capabilities.png" alt="Six internal capabilities: tools, interpretation, development, validation, evidence and web/API; Spanish labels" width="1100" />
+
+These are explanatory illustrations. Actual program captures and controlled fixtures below are labelled separately. [Static animation alternative](assets/story/conversation.png) · [Visual provenance](docs/CAPTURAS.md)
+
 Version 0.4 adds a Kali cybersecurity and coding copilot, installed-tool discovery, 20 known local-help recipes, explicit terminal-log sharing, notebooks, and six native OpenCode skills loaded on demand. See the [copilot manual](docs/COPILOTO.md) and [upstream adaptations and licensing](docs/CLAUDE-BUGHUNTER.md). Adapted skills and methodology cards are CC BY 4.0, credited to Sachin Sharma / elementalsouls; original code is MIT. Native skill loading was verified against real OpenCode using a fixture model. A real local-model Nmap explanation took 117 seconds on CPU; these additions do not establish expert performance or improve historical benchmark scores.
 
 
