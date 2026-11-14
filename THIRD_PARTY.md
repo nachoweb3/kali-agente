@@ -6,5 +6,6 @@ Kali Agente es una capa de coordinacion independiente creada por nachoweb3. No e
 - OpenCode y Ollama: dependencias externas; conservan sus licencias y marcas. No se incluyen sus binarios.
 - Qwen y las variantes abliterated: modelos externos con sus propias licencias y condiciones; revisa el repositorio concreto antes de descargarlos o redistribuirlos. No se incluyen pesos ni se modifican con este instalador.
 - El generador del banner utiliza Pillow y una fuente monoespaciada instalada en el sistema. No se redistribuye el archivo de fuente.
+- La galeria se genera con Pillow, WeasyPrint y PyMuPDF, dependencias opcionales que conservan sus propias licencias. No se incluyen sus librerias en el repositorio ni se necesitan para ejecutar el agente.
 
 El proyecto no esta afiliado a Kali Linux, OpenCode, Ollama ni a los autores de los modelos.

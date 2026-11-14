@@ -1,0 +1,14 @@
+$ kali-agente trabajar 'Corregir la suma'
+
+Tarea: 20261114-120000-abcdef 
+Worktree: /demo/state/tareas/20261114-120000-abcdef/proyecto 
+Rama: nacho/20261114-120000-abcdef
+  [antes] git-diff-check: OK
+  [antes] test-suma: FALLO
+  [DEMO] Agente simulado: reemplazar multiplicacion por suma.
+  [despues] git-diff-check: OK
+  [despues] test-suma: OK
+
+Estado: verificado 
+Informe: /demo/state/tareas/20261114-120000-abcdef/INFORME.md 
+Diff: /demo/state/tareas/20261114-120000-abcdef/cambios.patch

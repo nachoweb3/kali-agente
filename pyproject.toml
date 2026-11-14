@@ -15,6 +15,7 @@ classifiers = ["Operating System :: POSIX :: Linux", "Programming Language :: Py
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.17", "build>=1", "Pillow>=11", "jsonschema>=4"]
+media = ["Pillow>=11", "weasyprint>=70", "pymupdf>=1.26"]
 
 [project.scripts]
 kali-agente = "kali_agente.cli:entrypoint"

@@ -1,0 +1,24 @@
+$ kali-agente --version
+0.3.0
+
+$ kali-agente perfiles
+{
+  "equilibrado": {
+    "context": 16384,
+    "output": 2048,
+    "temperature": 0.1,
+    "seed": 42
+  },
+  "determinista": {
+    "context": 16384,
+    "output": 2048,
+    "temperature": 0,
+    "seed": 42
+  },
+  "contexto-amplio": {
+    "context": 32768,
+    "output": 4096,
+    "temperature": 0.1,
+    "seed": 42
+  }
+}

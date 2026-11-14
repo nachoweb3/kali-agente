@@ -1,5 +1,9 @@
 # Validacion
 
+## Presentacion del repositorio
+
+La portada muestra la version 0.3.0, una galeria y enlaces al manual completo. Las vistas de terminal se generan a partir de salidas del programa; el flujo utiliza un agente simulado identificado como tal. La vista de revision es un render estatico del HTML generado por la herramienta, sin navegador, JavaScript ni recursos externos. Las cuatro imagenes y el banner actualizado se inspeccionaron visualmente. [Procedencia y regeneracion](docs/CAPTURAS.md).
+
 ## 0.3.0
 
 - 50 pruebas locales aprobadas (y 9 subtests de fixtures/validadores) en Python 3.14 sobre Linux / WSL2.

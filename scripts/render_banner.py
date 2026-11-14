@@ -6,6 +6,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 from kali_agente.cabecera_kali import scene, title
+from kali_agente import __version__
 
 
 def main():
@@ -27,7 +28,14 @@ def main():
         )
         for x, color in [(36, "#48dbef"), (58, "#668eff"), (80, "#b397ff")]:
             draw.ellipse((x, 33, x + 10, 43), fill=color)
-        draw.text((112, 31), "kali-agente  /  LOCAL CODING AGENT", font=small, fill="#adbed4")
+        draw.text(
+            (112, 31),
+            f"KALI AGENTE / v{__version__} / LOCAL CODING AGENT",
+            font=small,
+            fill="#adbed4",
+        )
+        draw.rounded_rectangle((770, 26, 922, 51), radius=8, fill="#172b42", outline="#3a6985")
+        draw.text((783, 30), "RELEASE " + __version__, font=small, fill="#87efff")
         draw.line((28, 64, width - 28, 64), fill="#25364e", width=1)
         lines = [
             "KALI IA  /  NACHO_WEB3".center(76),

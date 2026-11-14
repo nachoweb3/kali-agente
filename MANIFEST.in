@@ -3,6 +3,8 @@ include CONTRIBUTING.md SECURITY.md .gitattributes .gitignore
 include VALIDATION.md
 recursive-include .github *.yml
 recursive-include assets *.gif *.png *.html
+recursive-include assets *.txt *.json
+recursive-include docs *.md
 recursive-include evaluations *.json *.md
 include evaluations/Modelfile.cpu
 recursive-include scripts *.py *.sh

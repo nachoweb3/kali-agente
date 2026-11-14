@@ -1,0 +1,5 @@
+$ python scripts/check_sandbox.py
+
+Docker: read-only project/root, no network, no host secrets/socket OK
+Limite del contenedor alcanzado; eliminando su ejecucion.
+Docker: explicit writes and timeout cleanup OK

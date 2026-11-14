@@ -1,65 +1,69 @@
-# Kali Agente · by nachoweb3
+<div align="center">
 
-![Animated ASCII farmer robot](assets/banner.gif)
+# Kali Agente · v0.3.0
 
-**A local coding agent built around OpenCode and Ollama, with Git worktrees and independent verification.** [Documentacion completa en espanol](README.md).
+### Your local model. Your terminal. Changes you can review.
 
-Inspect repositories, edit files, run shell commands and receive a report with the proposed patch. Choose your own Ollama tool-capable model. This package does not bundle model weights, OpenCode or Ollama. It is not a newly trained foundation model.
+<img src="assets/banner.gif" alt="Kali Agente v0.3.0 and the animated NACHO_WEB3 ASCII farmer robot" width="960" />
+
+[![Version 0.3.0](https://img.shields.io/badge/VERSION-0.3.0-80e9ff?style=for-the-badge&labelColor=0c1626)](https://github.com/nachoweb3/kali-agente/releases/tag/v0.3.0)
+[![CI](https://github.com/nachoweb3/kali-agente/actions/workflows/ci.yml/badge.svg)](https://github.com/nachoweb3/kali-agente/actions/workflows/ci.yml)
+[![MIT](https://img.shields.io/badge/license-MIT-bd9bff)](LICENSE)
+
+**A local coding agent by [nachoweb3](https://github.com/nachoweb3), built around OpenCode + Ollama.**
+
+[Download v0.3.0](https://github.com/nachoweb3/kali-agente/releases/tag/v0.3.0) · [Full guide](docs/GUIDE.en.md) · [Español](README.md)
+
+</div>
+
+Turn a goal into file changes, real checks and a reviewable patch. Kali Agente coordinates Git worktrees, execution limits, independent verification, reports and confirmed integration around your chosen local model.
+
+## See the workflow
+
+<img src="assets/screenshots/tarea-verificada.png" alt="Controlled demo: an initial failing check becomes passing after a simulated agent edits a real Git worktree" width="1100" />
+
+*Controlled agent fixture; Git and project checks run for real. This is captured coordinator output rendered as a terminal, not a real-model benchmark.*
+
+<img src="assets/screenshots/revision-grafica.png" alt="Generated local HTML review showing passing checks, line numbers and a highlighted patch" width="1100" />
+
+*Static render of the review HTML generated for the demo. No browser, JavaScript or external resources. [Image provenance and regeneration](docs/CAPTURAS.md).*
+
+<img src="assets/screenshots/docker-real.png" alt="Real Docker checks for read-only mounts, disabled networking, explicit writes and timeout cleanup" width="1100" />
+
+*Actual Docker integration check output, rendered as a terminal. No model inference is involved.*
+
+## What's in v0.3.0
+
+- Optional Docker environments for individual commands, without network or project writes by default.
+- Six evaluation cases, repetitions and manifests recording model digest, versions, hardware, settings and source hashes.
+- Balanced, deterministic and larger-context request profiles for an already installed model.
+- Local HTML patch review and interactive confirmation before integration.
+- Task archive/restore, allowlisted ZIP export and confirmed worktree cleanup with a patch backup.
+
+Guided setup, progress monitoring and session continuation are also included. [Changelog](CHANGELOG.md).
 
 ## Install
 
-Requires Linux (or Windows through WSL2), Python 3.11+, Git, venv, pip, OpenCode and Ollama with an installed tool-capable model. Integration is tested against OpenCode 2.3.0. Ruff is optional. Project-specific dependencies must be installed separately in Linux.
+Requires Linux or Windows through WSL2, Python 3.11+, Git, OpenCode and Ollama with an installed tool-capable model. Integration is tested with OpenCode 2.3.0. The installer does not download models.
 
 ```bash
 git clone https://github.com/nachoweb3/kali-agente.git
 cd kali-agente
 bash scripts/install.sh
 export PATH="$HOME/.local/bin:$PATH"
-kali-agente configurar --modelo 'your-installed-model:latest'
 kali-agente iniciar
-kali-agente estado
-kali-agente
 ```
 
-For Windows, install prerequisites in WSL2, then run `powershell -NoProfile -ExecutionPolicy Bypass -File .\windows\install.ps1` from the clone. Reopen CMD or PowerShell and use `kali-agente.cmd`. The launcher preserves your current directory and runs the engine in Linux. Set `KALI_AGENT_WSL_DISTRO` if your distribution is not `kali-linux`. This is a WSL2 edition, not a native Windows implementation of Kali tools.
+For CMD/PowerShell, extract the [Windows/WSL2 ZIP](https://github.com/nachoweb3/kali-agente/releases/download/v0.3.0/kali-agente-0.3.0-windows-wsl2.zip) and run `powershell -NoProfile -ExecutionPolicy Bypass -File .\windows\install.ps1`. See the [full guide](docs/GUIDE.en.md) for prerequisites and commands. The CLI currently defaults to Spanish.
 
-## Verified tasks
+## Evidence and scope
 
-```bash
-# Inside a clean Git repository with an initial commit:
-kali-agente preparar
-# Review and commit .kali-agente.json and AGENTS.md before proceeding.
-kali-agente trabajar 'Fix the broken API endpoint' --segundos 1200 --acciones 60
-kali-agente resultados
-kali-agente retomar TASK_ID
-```
+The v0.3.0 local validation passed 50 tests plus 9 fixture/validator subtests. CI covers Python 3.11–3.14, Windows script parsing and real Docker checks. [Actions](https://github.com/nachoweb3/kali-agente/actions/workflows/ci.yml) · [Validation](VALIDATION.md).
 
-The coordinator captures the original checks, creates a worktree, records baseline results, runs OpenCode, formats changed Python when Ruff is available and runs the original checks again. A corrective pass can use actual failures. Reports and patches stay under the local state directory. A verified status means the configured checks passed and the run ended normally; it is not proof of bug-free software. Changes are not merged automatically.
+Actual model evaluations remain separate: the published CPU run verified 0/3 new cases within a 180-second budget per task. [Conditions and results](evaluations/README.md). Demo screenshots are not evidence of model capability.
 
-**Worktrees are not a sandbox.** The agent has the filesystem and network permissions of your account. `auto`, `trabajar`, `retomar` and `banco` automatically approve tools not explicitly denied by OpenCode. Protected-file checks detect changes after execution; they do not prevent writes. Use trusted projects and preferably a dedicated VM/account. Review [SECURITY.md](SECURITY.md).
+Worktrees are not a sandbox. The optional `aislado` command contains only the command you explicitly run through it. Automatic modes have real account access, and containers share the kernel. Review [SECURITY.md](SECURITY.md).
 
-Interactive mode asks for permissions according to OpenCode settings. `tarea 'goal'` runs a direct task; `auto 'goal'` enables automatic approval. Commands and agent instructions currently default to Spanish, but you can ask the model to respond in another language.
+---
 
-## Configuration
-
-Version 0.2 adds guided setup (`iniciar`), a progress panel (`tareas --seguir`), patch review (`revisar TASK_ID`) and confirmed integration (`aplicar TASK_ID`). Setup checks dependencies, lists installed Ollama models and saves your choice without downloading anything. For non-interactive setup, use `iniciar --modelo NAME`.
-
-The progress panel shows the last recorded phase, timestamp, current-attempt action count and last tool. A stale record does not prove a process is still running. Ctrl+C exits the panel; interrupt the task from its own terminal.
-
-Review prints the patch and records its hash. Integration reruns the captured checks, requires the original repository to be clean at the base commit, checks protected files and rejects changes to the reviewed patch/worktree. It requires typing `APLICAR TASK_ID` in an interactive terminal and rechecks state after confirmation. It uses `git apply --index`, staging the changes without committing. Review `git diff --cached` before committing. Checks run in the worktree before integration and cannot guarantee defect-free code.
-
-`kali-agente configurar --modelo MODEL --url http://127.0.0.1:11434 --contexto 16384 --salida 2048` writes this application's own config. `KALI_AGENT_MODEL`, `KALI_AGENT_OLLAMA_URL`, `KALI_AGENT_CONFIG_DIR`, `KALI_AGENT_STATE_DIR`, `KALI_AGENT_OPENCODE_BIN` and `KALI_AGENT_RUFF_BIN` override discovery. Standard XDG directories are respected. Existing OpenCode files are not overwritten; OpenCode can merge other configurations. Review its effective settings.
-
-Inference uses the chosen Ollama endpoint. Tools, plugins and other configurations may connect to the network. Logs can contain private paths, prompts and command output; inspect before sharing. The coordinator adds no telemetry. Model quality, memory use and performance depend on your model and hardware.
-
-## Development
-
-Version 0.3 adds optional Docker environments for individual tool commands (`aislado --imagen IMAGE -- COMMAND`), local HTML diff review (`revisar TASK_ID --grafico`), task archive/restore (`archivar TASK_ID [--restaurar]`), allowlisted ZIP exports (`exportar TASK_ID --destino FILE.zip`) and confirmed worktree cleanup (`limpiar TASK_ID [--descartar]`). Archive is logical and preserves all files. Cleanup preserves the branch, reports and a patch backup; ignored files block removal. It requires interactive confirmation.
-
-Docker must already be available, with a trusted local image installed explicitly. Commands default to no network, read-only root/project, dropped capabilities, no added privileges, bounded memory/CPU/processes/time, and temporary scratch space. `--red` enables bridge networking and `--escribir` enables writes to the mounted project. No silent image pulls or fallback to host execution. This contains the individual command, not the whole agent session; containers share the host kernel. See the Spanish README for full examples and scope.
-
-The benchmark now has six cases (41 reference assertions per full pass) and supports repetitions/time/action limits. `perfiles determinista --modelo INSTALLED_MODEL` selects request sampling and context/output budgets. Context budgets do not automatically configure Ollama's model context. Manifests record versions, model digest, CPU/RAM, sampling settings, limits and runner/suite/config hashes. A fixed seed cannot guarantee identical output. See [recorded evaluations](evaluations/README.md).
-
-Install `python -m pip install -e '.[dev]'` in a virtual environment. Run `python -m pytest -q`, `ruff format --check src tests scripts` and `python -m build`. Normal tests require no model or paid service. `kali-agente banco --caso todos` runs an optional six-case real-model benchmark; it is not a model leaderboard. `python scripts/render_banner.py` renders the terminal's exact ASCII frames as the README GIF using Pillow and a locally installed monospace font.
-
-Our code and artwork are [MIT](LICENSE). External software and model licenses remain separate; see [THIRD_PARTY.md](THIRD_PARTY.md). Contributions welcome: [CONTRIBUTING.md](CONTRIBUTING.md).
+**Created by [nachoweb3](https://github.com/nachoweb3)** · [MIT](LICENSE) · [Third-party licenses](THIRD_PARTY.md) · [Contribute](CONTRIBUTING.md) · [Issues](https://github.com/nachoweb3/kali-agente/issues)
