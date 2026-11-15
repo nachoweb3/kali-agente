@@ -10,3 +10,4 @@ include evaluations/Modelfile.cpu
 recursive-include scripts *.py *.sh
 recursive-include windows *.ps1 *.cmd
 recursive-include tests *.py
+recursive-include training *.py *.md *.json

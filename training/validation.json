@@ -1,0 +1,22 @@
+{
+  "status": "seed-pipeline-validation-only",
+  "counts": {
+    "train": 8,
+    "dev": 2
+  },
+  "limitations": [
+    "Ten tiny hand-authored examples, not a production training corpus",
+    "Tool names need adaptation to deployment schema",
+    "No held-out model evaluation or measured improvement yet"
+  ],
+  "sha256": {
+    "train.jsonl": "60f07ffb0d3e6dd3e69ee69fc80f2bbdf1453bbe3f01fa18159345e245716fb5",
+    "dev.jsonl": "f5e4930215525d7320edd8a495221d63e8378e2e796dcba3aab8a48518ea4aa8"
+  },
+  "checked_on": "2026-11-15",
+  "automated_tests": 68,
+  "subtests": 9,
+  "gpu_training_executed": false,
+  "model_quality_evaluation_executed": false,
+  "quality_improvement_demonstrated": false
+}

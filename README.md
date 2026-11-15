@@ -187,7 +187,9 @@ El motor corre dentro de WSL2. La distribución predeterminada es `kali-linux`; 
 
 ## Evidencias y límites
 
-- **63 pruebas automáticas**, más 9 subtests de fixtures y validadores, aprobadas en la validación local de v0.4.0.
+**Laboratorio de entrenamiento en preparación:** receta QLoRA, ejemplos semilla ejecutados y comparación pareada con controles de contaminación. Todavía no hay un adaptador entrenado ni una mejora de calidad demostrada. [Estado, requisitos y procedimiento](training/README.md).
+
+- **68 pruebas automáticas**, más 9 subtests de fixtures y validadores, aprobadas en la validación local de v0.4.0.
 - **CI para Python 3.11, 3.12, 3.13 y 3.14**, scripts de Windows y prueba real de Docker. [Consultar Actions](https://github.com/nachoweb3/kali-agente/actions/workflows/ci.yml).
 - **Wheel instalado en un entorno independiente**, flujo de revisión/integración y parámetros enviados por OpenCode comprobados. [Detalle de validación](VALIDATION.md).
 - **Evaluación del modelo publicada por separado:** 0/3 casos nuevos verificados en la ejecución local de CPU con 180 segundos por tarea. No se confunde ese resultado con los tests del coordinador. [Condiciones y resultados](evaluations/README.md).

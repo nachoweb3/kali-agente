@@ -2,6 +2,8 @@
 
 ## Sin publicar como release adicional
 
+- Laboratorio experimental de entrenamiento: generador de diez trayectorias semilla verificadas, receta QLoRA con preflight y comparacion pareada con condiciones y tareas reservadas. No hay entrenamiento de GPU ejecutado ni mejora del modelo demostrada.
+
 - Interfaz conversacional unica: seleccion semantica de capacidades por turno, combinables, sin pedir IDs al usuario. Se elimina la ficha automatica fijada por palabras clave al arrancar; las referencias manuales quedan como opcion avanzada.
 
 ## 0.4.0

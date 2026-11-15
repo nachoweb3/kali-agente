@@ -1,5 +1,14 @@
 # Validacion
 
+## Laboratorio de entrenamiento, 15 de noviembre de 2026
+
+- 68 pruebas locales y 9 subtests aprobados, incluyendo generacion y ejecucion de diez trayectorias semilla y controles de comparacion pareada. Formato y comprobaciones F de Ruff aprobados.
+- Semilla: ocho ejemplos train y dos dev, con familias separadas. Checks iniciales fallidos y finales aprobados. Son soluciones originales escritas a mano, no resultados del modelo.
+- Receta QLoRA: CLI y preflight comprobados; rechazo de GPU insuficiente probado con fixture sin cargar librerias de entrenamiento. **La rama de entrenamiento de GPU no se ha ejecutado ni validado.**
+- Sin adaptador generado, sin benchmark nuevo del modelo, sin mejora de capacidad demostrada. No confundir las pruebas del laboratorio con una evaluacion del modelo.
+- La RTX 3050 local informa 6144 MiB de memoria total. El checkpoint actual de 30,5B no cabe integramente en esa GPU para esta receta. No se han descargado pesos ni contratado recursos remotos.
+- [Procedimiento, requisitos, limitaciones y fuentes](training/README.md).
+
 ## 0.4.0
 
 - 62 pruebas y 9 subtests aprobados en Kali/WSL2 con Python 3.14; formato Ruff y comprobaciones F aprobados.
